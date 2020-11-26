@@ -8,7 +8,11 @@
   <button v-on:click="addStudent()">Submit</button>
   <br>
   <br>
-  <br>
+  <h1>INSERT TOPIC</h1>
+  <p>
+    <input v-model="topic.topicName" placeholder="insert topic name"><br>
+  </p>
+  <button v-on:click="addTopic()">Submit</button>
   <br>
   <br>
   <br>
@@ -33,7 +37,13 @@ let addStudent = function (){
   this.$http.post(url, this.student);
   // .then(this.showResponse)
   this.student = {};
-  alert(this.student)
+}
+
+let addTopic = function (){
+  let url = "http://localhost:8080/topic";
+  this.$http.post(url, this.topic);
+  // .then(this.showResponse)
+  this.topic = {};
 }
 
 let addExercise = function (){
@@ -52,11 +62,13 @@ let addExercise = function (){
 
 export default {
   methods: {addStudent: addStudent,
+            addTopic: addTopic,
             addExercise: addExercise
     // , showResponse: showResponse
   },
   data: function (){return{
     student:{},
+    topic:{},
     topName: "",
     exName: ""
   }}
