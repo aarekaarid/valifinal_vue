@@ -2,20 +2,20 @@
 <div class="home">
   <br>
   <p>
-    <input v-model="summary.name" placeholder="pick name"><br>
+    <input v-model="name" placeholder="pick name"><br>
   </p>
+  <p>
+    <input v-model="exerciseName" placeholder="pick exercise"><br>
+  </p>
+  <p>
+    <input v-model="grade" placeholder="insert grade"><br>
+  </p>
+  <button v-on:click="insertGrade()">Submit</button>
+  <br><br><br>
   <p>
     <input v-model="topName" placeholder="pick topic"><br>
   </p>
   <button v-on:click="pickTopic()">Pick topic</button><br>
-  <p>
-    <input v-model="summary.exerciseName" placeholder="pick exercise"><br>
-  </p>
-  <p>
-    <input v-model="summary.grade" placeholder="insert grade"><br>
-  </p>
-  <button v-on:click="insertGrade()">Submit</button>
-  <br><br><br>
   {{a}}
   </div>
 </template>
@@ -27,15 +27,25 @@ let returnTopId =function (response){
 
 let insertGradeF = function (){
   let url = "http://localhost:8080/summary";
-  this.$http.put(url, {}, this.summary);
+  let requestParams = {
+    params: {
+      name: this.name,
+      exerciseName: this.exerciseName,
+      grade: this.grade
+    }
+  }
+  this.$http.put(url, {}, requestParams);
       // .then(this.showResponse)
-  this.summary = {};
+  this.name="";
+  this.exerciseName = "";
+  this.grade="";
 }
 
 let pickTopicF = function (){
   let url = "http://localhost:8080/topic/"+this.topName;
   this.$http.get(url).then(this.returnTopId);
   this.topName= "";
+
 }
 
 export default {
@@ -44,7 +54,9 @@ export default {
     , returnTopId: returnTopId
   },
   data: function (){return{
-    summary:{},
+    name: "",
+    exerciseName:"",
+    grade:"",
     topName: "",
     a: ""
   }}

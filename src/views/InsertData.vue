@@ -29,14 +29,9 @@
 </template>
 
 <script>
-// let showResponse =function (response){
-//   this.a = response.data;
-// }
-// let a = "promise"
 let addStudent = function (){
   let url = "http://localhost:8080/student";
   this.$http.post(url, this.student);
-  // .then(this.showResponse)
   this.student = {};
 }
 
@@ -57,7 +52,7 @@ let addExercise = function (){
   }
   this.$http.post(url, {}, requestParams);
   // .then(this.showResponse)
-  this.topName = "";
+  // this.topName = "";
   this.exName = "";
 }
 
