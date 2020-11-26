@@ -15,8 +15,15 @@
   </p>
   <button v-on:click="addTopic()">Submit</button>
   <br>
-  <br>
-  <br>
+  <table border="1">
+    <tr>
+      <th>TOPICS:</th>
+    </tr>
+    <tr v-for="row in resultList">
+      <td>{{row}}</td>
+    </tr>
+  </table>
+  <br><br><br><br>
   <h1>CHOOSE TOPIC/ ADD EXERCISE</h1>
   <p>
     <input v-model="topName" placeholder="insert topic name"><br>
@@ -29,20 +36,20 @@
 </template>
 
 <script>
-let addStudent = function (){
+let addStudentF = function (){
   let url = "http://localhost:8080/student";
   this.$http.post(url, this.student);
   this.student = {};
 }
 
-let addTopic = function (){
+//adds topic and returns topic list
+let addTopicF = function (){
   let url = "http://localhost:8080/topic";
-  this.$http.post(url, this.topic);
-  // .then(this.showResponse)
+  this.$http.post(url, this.topic).then(this.showTable);
   this.topic = {};
 }
 
-let addExercise = function (){
+let addExerciseF = function (){
   let url = "http://localhost:8080/exercise";
   let requestParams = {
     params: {
@@ -51,22 +58,27 @@ let addExercise = function (){
     }
   }
   this.$http.post(url, {}, requestParams);
-  // .then(this.showResponse)
-  // this.topName = "";
   this.exName = "";
 }
 
+let showTableF = function (response){
+  this.resultList = response.data;
+  console.log(this.resultList)
+}
+
 export default {
-  methods: {addStudent: addStudent,
-            addTopic: addTopic,
-            addExercise: addExercise
-    // , showResponse: showResponse
+  methods: {addStudent: addStudentF,
+            addTopic: addTopicF,
+            addExercise: addExerciseF,
+            showTable: showTableF
   },
   data: function (){return{
     student:{},
     topic:{},
     topName: "",
-    exName: ""
+    exName: "",
+    resultList:[],
+    topicName:""
   }}
 }
 </script>

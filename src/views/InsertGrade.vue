@@ -1,6 +1,7 @@
 <template>
 <div class="home">
   <br>
+  <h1>INSERT GRADES</h1>
   <p>
     <input v-model="name" placeholder="pick name"><br>
   </p>
