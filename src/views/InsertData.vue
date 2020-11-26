@@ -26,8 +26,7 @@ export default {
   },
   data: function (){return{
     student:{}
-  }},
-  name: 'Home'
+  }}
 }
 
 </script>

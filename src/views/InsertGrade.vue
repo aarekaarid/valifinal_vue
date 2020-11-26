@@ -2,32 +2,52 @@
 <div class="home">
   <br>
   <p>
-    <input v-model="student.name" placeholder="insert name"><br>
+    <input v-model="summary.name" placeholder="pick name"><br>
   </p>
-  <button v-on:click="addStudent()">Register</button><br>
+  <p>
+    <input v-model="topName" placeholder="pick topic"><br>
+  </p>
+  <button v-on:click="pickTopic()">Pick topic</button><br>
+  <p>
+    <input v-model="summary.exerciseName" placeholder="pick exercise"><br>
+  </p>
+  <p>
+    <input v-model="summary.grade" placeholder="insert grade"><br>
+  </p>
+  <button v-on:click="insertGrade()">Submit</button>
+  <br><br><br>
+  {{a}}
   </div>
 </template>
 
 <script>
-// let showResponse =function (response){
-//   this.a = response.data;
-// }
-// let a = "promise"
-let addStudent = function (){
-  let url = "http://localhost:8080/student"
-  this.$http.post(url, this.student)
+let returnTopId =function (response){
+  this.a = response.data;
+}
+
+let insertGradeF = function (){
+  let url = "http://localhost:8080/summary";
+  this.$http.put(url, {}, this.summary);
       // .then(this.showResponse)
-  this.student = {}
+  this.summary = {};
+}
+
+let pickTopicF = function (){
+  let url = "http://localhost:8080/topic/"+this.topName;
+  this.$http.get(url).then(this.returnTopId);
+  this.topName= "";
 }
 
 export default {
-  methods: {addStudent: addStudent
-    // , showResponse: showResponse
+  methods: {insertGrade: insertGradeF,
+      pickTopic: pickTopicF
+    , returnTopId: returnTopId
   },
   data: function (){return{
-    student:{}
-  }},
-  name: 'Home'
+    summary:{},
+    topName: "",
+    a: ""
+  }}
 }
 
 </script>
