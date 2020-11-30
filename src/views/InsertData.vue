@@ -39,7 +39,8 @@
 <!--        </td>-->
 <!--      </tr>-->
     </table>
-    <input v-model="topic.topicName" placeholder="insert topic name"> <br>
+    <p>
+    <input v-model="topic.topicName" placeholder="insert topic name"></p>
     <button v-on:click="addTopic()">Submit</button><br>
 <!--    <button v-on:click="displayTopics()">Display topics</button>-->
     <br><br>
@@ -54,9 +55,6 @@
     </select>
     </p>
     <!--END OF TOPICS DROPDOWN-->
-<!--    <p>-->
-<!--      <input v-model="dropDownTopic" placeholder="insert topic name"><br>-->
-<!--    </p>-->
     <p>
       <input v-model="exName" placeholder="insert exercise text"><br>
     </p>

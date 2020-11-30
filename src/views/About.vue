@@ -26,6 +26,14 @@
       </tr>
       <button v-on:click="send()">Send</button>
     </table>
+    <p>
+      <select v-model="dropDownId">
+        <option v-for="option in resultTable" v-bind:value="option.topicName">
+          {{option.topicName}}
+        </option>
+      </select>
+    </p>
+
 
 <!--    <p>-->
 <!--      <button v-on:click="pickTopic">Get topic ID</button> //inputti on ka veel vaja-->
@@ -89,8 +97,10 @@ export default {
     return {
       // resultList: [],
       topic: {},
+      topicName:"",
       resultTable: [],
-      dropDownData: []
+      dropDownData: [],
+      dropDownId: ""
           // [{name:"one"},
           // {name:"two"},
           // {name:"three"}]   //nii töötab ka
