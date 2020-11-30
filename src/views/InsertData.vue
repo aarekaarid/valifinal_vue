@@ -35,20 +35,19 @@
         <th>ID</th>
         <th>TOPICS</th>
       </tr>
-      <tr v-for="(row, index) in resultList">
+      <tr v-for="(row, index) in topicsList">
         <td>{{ index + 1 }}</td>
         <td>{{ row.topicName }}</td>
       </tr>
-      <tr>
-        <td>
-          <button v-on:click="addRow()">Add row</button>
-        </td>
-      </tr>
+<!--      <tr>-->
+<!--        <td>-->
+<!--          <button v-on:click="addRow()">Add row</button>-->
+<!--        </td>-->
+<!--      </tr>-->
     </table>
-    <input v-model="topic.topicName" placeholder="insert topic name">
-    <button v-on:click="addTopic()">Submit</button>
-    <br>
-    <button v-on:click="displayTopics()">Display topics</button>
+    <input v-model="topic.topicName" placeholder="insert topic name"> <br>
+    <button v-on:click="addTopic()">Submit</button><br>
+<!--    <button v-on:click="displayTopics()">Display topics</button>-->
     <br><br><br><br>
 
     <h1>CHOOSE TOPIC/ ADD EXERCISE</h1>
@@ -87,13 +86,27 @@ let displayNames = function () {
 // }
 
 //adds topic and returns topic list
-let addTopicF = function () {
+let addTopic = function () {
   let url = "http://localhost:8080/topic";
-  this.$http.post(url, this.topic);
+  this.$http.post(url, this.topic).then(this.returnTopics);
   this.topic = {};
 }
 
-let addExerciseF = function () {
+let returnTopics = function (response) {
+  this.topicsList = response.data;
+  console.log(this.topicsList)
+}
+
+let displayTopics = function () {
+  let url = "http://localhost:8080/topic/table";
+  this.$http.get(url, this.topic).then(this.returnTopics);
+}
+
+let addRow = function () {
+  this.topicsList.push({});
+}
+
+let addExercise = function () {
   let url = "http://localhost:8080/exercise";
   let requestParams = {
     params: {
@@ -104,43 +117,29 @@ let addExerciseF = function () {
   this.$http.put(url, {}, requestParams);
   this.exName = "";
 }
-//ADD TOPIC RETURNED TABLE
-let displayTopicsF = function () {
-  let url = "http://localhost:8080/topic/table";
-  this.$http.get(url, this.topic).then(this.showResult);
-}
-
-let showResultF = function (response) {
-  this.resultList = response.data;
-  // console.log(this.resultList)
-}
-//END OF ADD TOPIC
-
-
-
 
 export default {
   methods: {
     addStudent: addStudent,
-    // addRow: addRowF,
-    addTopic: addTopicF,
-    addExercise: addExerciseF,
-    showResult: showResultF,
     returnNames: returnNames,
     displayNames: displayNames,
-    displayTopics: displayTopicsF
+    addTopic: addTopic,
+    returnTopics: returnTopics,
+    displayTopics: displayTopics,
+    addRow: addRow,
+    addExercise: addExercise,
   },
   data: function () {
     return {
       student: {},
-      name: "",
+      // name: "",
       namesList: [],
       topic: {},
       newRow: [],
       topName: "",
       exName: "",
-      resultList: [],
-      topicName: ""
+      topicsList: [],
+      // topicName: ""
     }
   },
   created(){   //selle abil tulevad andmed automaatselt
