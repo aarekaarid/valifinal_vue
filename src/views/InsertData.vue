@@ -2,9 +2,6 @@
   <div class="home">
     <br>
     <h1>INSERT STUDENT</h1>
-    <p>
-      <br>
-    </p>
     <table align="center" border="1">
       <tr>
         <th>ID</th>
@@ -24,13 +21,10 @@
     <input v-model="student.name" placeholder="insert name"><br>
     </p>
     <button v-on:click="addStudent()">Submit</button>
-    <br><br><br><br><br><br>
+    <br><br>
 
     <h1>INSERT TOPIC</h1>
-    <p>
-      <br>
-    </p>
-    <table border="1">
+    <table  align="center" border="1">
       <tr>
         <th>ID</th>
         <th>TOPICS</th>
@@ -48,12 +42,21 @@
     <input v-model="topic.topicName" placeholder="insert topic name"> <br>
     <button v-on:click="addTopic()">Submit</button><br>
 <!--    <button v-on:click="displayTopics()">Display topics</button>-->
-    <br><br><br><br>
+    <br><br>
 
     <h1>CHOOSE TOPIC/ ADD EXERCISE</h1>
+    <!--TOPICS DROPDOWN-->
     <p>
-      <input v-model="topName" placeholder="insert topic name"><br>
+    <select v-model="dropDownTopic">  <!--NB! This is the  selected value-->
+      <option v-for="option in topicsList" v-bind:value="option.topicName">
+        {{option.topicName}}
+      </option>
+    </select>
     </p>
+    <!--END OF TOPICS DROPDOWN-->
+<!--    <p>-->
+<!--      <input v-model="dropDownTopic" placeholder="insert topic name"><br>-->
+<!--    </p>-->
     <p>
       <input v-model="exName" placeholder="insert exercise text"><br>
     </p>
@@ -102,15 +105,15 @@ let displayTopics = function () {
   this.$http.get(url, this.topic).then(this.returnTopics);
 }
 
-let addRow = function () {
-  this.topicsList.push({});
-}
+// let addRow = function () {
+//   this.topicsList.push({});
+// }
 
 let addExercise = function () {
   let url = "http://localhost:8080/exercise";
   let requestParams = {
     params: {
-      topName: this.topName,
+      topName: this.dropDownTopic,
       exName: this.exName,
     }
   }
@@ -126,7 +129,7 @@ export default {
     addTopic: addTopic,
     returnTopics: returnTopics,
     displayTopics: displayTopics,
-    addRow: addRow,
+    // addRow: addRow,
     addExercise: addExercise,
   },
   data: function () {
@@ -139,7 +142,8 @@ export default {
       topName: "",
       exName: "",
       topicsList: [],
-      // topicName: ""
+      // topicName: "",
+      dropDownTopic: ""
     }
   },
   created(){   //selle abil tulevad andmed automaatselt

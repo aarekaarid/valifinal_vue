@@ -19,7 +19,7 @@
         <td><input v-model="row.topicName"></td>
         <td><button v-on:click="deleteRow(index)">Delete</button></td>
         <td> <select v-model="row.dropDownId">
-          <option v-for="option in resultTable" v-bind:value="option.topicName">
+          <option v-for="option in dropDownData" v-bind:value="option.topicName">
             {{option.topicName}}
           </option>
         </select></td>
