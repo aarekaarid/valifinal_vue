@@ -3,7 +3,25 @@
     <br>
     <h1>INSERT STUDENT</h1>
     <p>
-      <input v-model="student.name" placeholder="insert name"><br>
+      <br>
+    </p>
+    <table align="center" border="1">
+      <tr>
+        <th>ID</th>
+        <th>STUDENTS</th>
+      </tr>
+      <tr v-for="(row, index) in namesList">
+        <td>{{ index + 1 }}</td>
+        <td>{{ row.name }}</td>
+      </tr>
+<!--      <tr>-->
+<!--        <td>-->
+<!--          <button v-on:click="addRow()">Add row</button>-->
+<!--        </td>-->
+<!--      </tr>-->
+    </table>
+    <p>
+    <input v-model="student.name" placeholder="insert name"><br>
     </p>
     <button v-on:click="addStudent()">Submit</button>
     <br><br><br><br><br><br>
@@ -12,7 +30,6 @@
     <p>
       <br>
     </p>
-
     <table border="1">
       <tr>
         <th>ID</th>
@@ -46,15 +63,28 @@
 </template>
 
 <script>
-let addStudentF = function () {
+//ADD STUDENT
+let addStudent = function () {
   let url = "http://localhost:8080/student";
-  this.$http.post(url, this.student);
+  this.$http.post(url, this.student).then(this.returnNames);
   this.student = {};
 }
 
-let addRowF = function () {
-  this.newRow.push({});
+let returnNames = function (response) {
+  this.namesList = response.data;
 }
+
+let displayNames = function () {
+  let url = "http://localhost:8080/student/table";
+  this.$http.get(url).then(this.returnNames);
+}
+
+
+//END OF STUDENT
+
+// let addRowF = function () {
+//   this.newRow.push({});
+// }
 
 //adds topic and returns topic list
 let addTopicF = function () {
@@ -74,7 +104,7 @@ let addExerciseF = function () {
   this.$http.put(url, {}, requestParams);
   this.exName = "";
 }
-
+//ADD TOPIC RETURNED TABLE
 let displayTopicsF = function () {
   let url = "http://localhost:8080/topic/table";
   this.$http.get(url, this.topic).then(this.showResult);
@@ -82,21 +112,29 @@ let displayTopicsF = function () {
 
 let showResultF = function (response) {
   this.resultList = response.data;
-  console.log(this.resultList)
+  // console.log(this.resultList)
 }
+//END OF ADD TOPIC
+
+
+
 
 export default {
   methods: {
-    addStudent: addStudentF,
-    addRow: addRowF,
+    addStudent: addStudent,
+    // addRow: addRowF,
     addTopic: addTopicF,
     addExercise: addExerciseF,
     showResult: showResultF,
+    returnNames: returnNames,
+    displayNames: displayNames,
     displayTopics: displayTopicsF
   },
   data: function () {
     return {
       student: {},
+      name: "",
+      namesList: [],
       topic: {},
       newRow: [],
       topName: "",
@@ -105,8 +143,9 @@ export default {
       topicName: ""
     }
   },
-  // created(){   //selle abil tulevad andmed automaatselt
-  //   this.displayTopics()
-  // }
+  created(){   //selle abil tulevad andmed automaatselt
+    this.displayTopics();
+    this.displayNames()
+  }
 }
 </script>
