@@ -2,72 +2,45 @@
   <div class="home">
     <br>
     <h1>INSERT GRADES</h1>
-    <p>
-    </p>
-    <p><input v-model="name" placeholder="pick name"></p>
-    <!--          <select v-model="row.dropDown">-->
-    <!--            <option v-for="option in namesList" v-bind:value="option.name">-->
-    <!--              {{ option.name }}-->
-    <!--            </option>-->
-    <!--          </select>-->
-    <p><input v-model="exerciseName" placeholder="pick exercise">    </p>
-    <p><input v-model="grade" placeholder="insert grade">   </p>
-    <button v-on:click="insertGrade()">Submit</button>
-    <p>
-      <br>
-    </p>
-    <table border="1">
+    <table border="1" align="center">
       <tr>
         <th>ID</th>
-        <th>Name</th>
+        <th>Student name</th>
+        <th>Topic name</th>
         <th>Exercise name</th>
         <th>Grade</th>
       </tr>
       <tr v-for="(row, index) in summaryList">
         <td>{{ index + 1 }}</td>
-        <td>{{row.studentId}}</td>
-          <!--          <select v-model="row.dropDown">-->
-          <!--            <option v-for="option in namesList" v-bind:value="option.name">-->
-          <!--              {{ option.name }}-->
-          <!--            </option>-->
-          <!--          </select>-->
-        <td>{{row.exerciseId}}</td>
-        <td>{{row.grade}}</td>
+        <td>{{ row.studentName }}</td>
+        <!--          <select v-model="row.dropDown">-->
+        <!--            <option v-for="option in namesList" v-bind:value="option.name">-->
+        <!--              {{ option.name }}-->
+        <!--            </option>-->
+        <!--          </select>-->
+        <td>{{ row.topicName }}</td>
+        <td>{{ row.exerciseName }}</td>
+        <td>{{ row.grade }}</td>
       </tr>
       <tr>
         <td>
           <button v-on:click="addRow()">Add row</button>
-        </td>
-        <td><p></p></td>
-        <td><p></p></td>
-        <td>
-          <button v-on:click="insertGrade()">Submit</button>
-        </td>
-      </tr>
-    </table><br><br>
-    <table border="1">
-      <tr v-for="row in summaryList">
-        <td><input v-model="row.studentId" placeholder="pick name"></td>
-        <td><input v-model="row.exerciseId" placeholder="pick exercise"></td>
-        <td><input v-model="row.grade" placeholder="insert grade"></td>
-      </tr>
-      <tr>
-        <td>
-          <button v-on:click="addRow()">Add row</button>
-        </td>
-        <td><p></p></td>
-        <td>
-          <button v-on:click="insertGrade()">Submit</button>
         </td>
       </tr>
     </table>
-    <br><br><br>
-    <p>
-      <input v-model="topName" placeholder="pick topic"><br>
-    </p>
-    <button v-on:click="pickTopic()">Pick topic</button>
-    <br>
-    {{ a }}
+    <p><input v-model="name" placeholder="pick name"></p>
+<!--    <p><input v-model="topicName" placeholder="pick topic"></p>-->
+    <p><input v-model="exerciseName" placeholder="pick exercise"></p>
+    <p><input v-model="grade" placeholder="insert grade"></p>
+    <button v-on:click="insertGrade()">Submit</button>
+    <br><br>
+<!--    <br><br><br>-->
+<!--    <p>-->
+<!--      <input v-model="topName" placeholder="pick topic"><br>-->
+<!--    </p>-->
+<!--    <button v-on:click="pickTopic()">Pick topic</button>-->
+<!--    <br>-->
+<!--    {{ a }}-->
   </div>
 </template>
 
@@ -78,6 +51,7 @@ let addRowF = function () {
 
 let returnSummaryF = function (response) {
   this.summaryList = response.data;
+  console.log(this.summaryList)
 }
 
 let displaySummaryF = function () {
@@ -103,8 +77,7 @@ let insertGradeF = function () {
       grade: this.grade
     }
   }
-  this.$http.put(url, {}, requestParams);
-  // .then(this.showResponse)
+  this.$http.put(url, {}, requestParams).then(this.returnSummary);
   this.name = "";
   this.exerciseName = "";
   this.grade = "";
@@ -138,14 +111,14 @@ export default {
       namesList: [],
       name: "",
       exerciseName: "",
-      studentId: 0,
-      exerciseId: 0,
+      // studentId: 0,
+      // exerciseId: 0,
       grade: "",
       topName: "",
       a: "",
     }
   },
-  created() {   //selle abil tulevad andmed automaatselt, hetkel veel konsooli
+  created() {   //selle abil tulevad andmed automaatselt
     this.displaySummary()
   }
 }

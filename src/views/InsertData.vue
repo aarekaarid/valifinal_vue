@@ -2,9 +2,6 @@
   <div class="home">
     <br>
     <h1>INSERT STUDENT</h1>
-    <p>
-      <br>
-    </p>
     <table align="center" border="1">
       <tr>
         <th>ID</th>
@@ -27,10 +24,7 @@
     <br><br><br><br><br><br>
 
     <h1>INSERT TOPIC</h1>
-    <p>
-      <br>
-    </p>
-    <table border="1">
+    <table border="1" align="center">
       <tr>
         <th>ID</th>
         <th>TOPICS</th>
@@ -45,7 +39,8 @@
 <!--        </td>-->
 <!--      </tr>-->
     </table>
-    <input v-model="topic.topicName" placeholder="insert topic name"> <br>
+    <p>
+    <input v-model="topic.topicName" placeholder="insert topic name"></p>
     <button v-on:click="addTopic()">Submit</button><br>
 <!--    <button v-on:click="displayTopics()">Display topics</button>-->
     <br><br><br><br>
