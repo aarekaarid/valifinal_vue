@@ -55,6 +55,16 @@
     </select>
     </p>
     <!--END OF TOPICS DROPDOWN-->
+    <table  align="center" border="1">
+      <tr>
+        <th>ID</th>
+        <th>EXERCISES</th>
+      </tr>
+      <tr v-for="(row, index) in exerciseList">
+        <td>{{ index + 1 }}</td>
+        <td>{{ row.exerciseName }}</td>
+      </tr>
+    </table>
     <p>
       <input v-model="exName" placeholder="insert exercise text"><br>
     </p>
@@ -103,9 +113,17 @@ let displayTopics = function () {
   this.$http.get(url, this.topic).then(this.returnTopics);
 }
 
-// let addRow = function () {
-//   this.topicsList.push({});
-// }
+// adds EXERCISE LIST
+let returnExercises = function (response) {
+  this.exerciseList = response.data;
+  // console.log(this.exerciseList)
+}
+
+let displayExercises = function () {
+  let url = "http://localhost:8080/exercise/"+"CSS";
+  this.$http.get(url).then(this.returnExercises);
+}
+// END OF EXERCISE LIST
 
 let addExercise = function () {
   let url = "http://localhost:8080/exercise";
@@ -129,6 +147,8 @@ export default {
     displayTopics: displayTopics,
     // addRow: addRow,
     addExercise: addExercise,
+    returnExercises: returnExercises,
+    displayExercises: displayExercises,
   },
   data: function () {
     return {
@@ -138,15 +158,17 @@ export default {
       topic: {},
       newRow: [],
       topName: "",
-      exName: "",
       topicsList: [],
+      exName: "",
+      exerciseList: [],
       // topicName: "",
       dropDownTopic: ""
     }
   },
   created(){   //selle abil tulevad andmed automaatselt
     this.displayTopics();
-    this.displayNames()
+    this.displayNames();
+    this.displayExercises()
   }
 }
 </script>
