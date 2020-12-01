@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <br>
+
     <h1>INSERT STUDENT</h1>
     <table align="center" border="1">
       <tr>
@@ -11,11 +12,6 @@
         <td>{{ index + 1 }}</td>
         <td>{{ row.name }}</td>
       </tr>
-<!--      <tr>-->
-<!--        <td>-->
-<!--          <button v-on:click="addRow()">Add row</button>-->
-<!--        </td>-->
-<!--      </tr>-->
     </table>
     <p>
     <input v-model="student.name" placeholder="insert name"><br>
@@ -33,11 +29,6 @@
         <td>{{ index + 1 }}</td>
         <td>{{ row.topicName }}</td>
       </tr>
-<!--      <tr>-->
-<!--        <td>-->
-<!--          <button v-on:click="addRow()">Add row</button>-->
-<!--        </td>-->
-<!--      </tr>-->
     </table>
     <p>
     <input v-model="topic.topicName" placeholder="insert topic name"></p>
@@ -76,13 +67,7 @@
 </template>
 
 <script>
-//ADD STUDENT
-let addStudent = function () {
-  let url = "http://localhost:8080/student";
-  this.$http.post(url, this.student).then(this.returnNames);
-  this.student = {};
-}
-
+//STUDENT
 let returnNames = function (response) {
   this.namesList = response.data;
 }
@@ -92,41 +77,39 @@ let displayNames = function () {
   this.$http.get(url).then(this.returnNames);
 }
 
-
+let addStudent = function () {
+  let url = "http://localhost:8080/student";
+  this.$http.post(url, this.student).then(this.returnNames);
+  this.student = {};
+}
 //END OF STUDENT
 
-// let addRowF = function () {
-//   this.newRow.push({});
-// }
+//TOPIC
+let returnTopics = function (response) {
+  this.topicsList = response.data;
+}
 
-//adds topic and returns topic list
+let displayTopics = function () {
+  let url = "http://localhost:8080/topic/table";
+  this.$http.get(url).then(this.returnTopics);
+}
+
 let addTopic = function () {
   let url = "http://localhost:8080/topic";
   this.$http.post(url, this.topic).then(this.returnTopics);
   this.topic = {};
 }
+//END OF TOPIC
 
-let returnTopics = function (response) {
-  this.topicsList = response.data;
-  console.log(this.topicsList)
-}
-
-let displayTopics = function () {
-  let url = "http://localhost:8080/topic/table";
-  this.$http.get(url, this.topic).then(this.returnTopics);
-}
-
-// adds EXERCISE LIST
+//EXERCISE
 let returnExercises = function (response) {
   this.exerciseList = response.data;
-  // console.log(this.exerciseList)
 }
 
 let displayExercises = function () {
   let url = "http://localhost:8080/exercise/"+this.dropDownTopic;
   this.$http.get(url).then(this.returnExercises);
 }
-// END OF EXERCISE LIST
 
 let addExercise = function () {
   let url = "http://localhost:8080/exercise";
@@ -136,9 +119,10 @@ let addExercise = function () {
       exName: this.exName,
     }
   }
-  this.$http.put(url, {}, requestParams);
+  this.$http.put(url, {}, requestParams).then(this.returnExercises);
   this.exName = "";
 }
+// END OF EXERCISE
 
 export default {
   methods: {
@@ -148,7 +132,6 @@ export default {
     addTopic: addTopic,
     returnTopics: returnTopics,
     displayTopics: displayTopics,
-    // addRow: addRow,
     addExercise: addExercise,
     returnExercises: returnExercises,
     displayExercises: displayExercises,
@@ -156,16 +139,13 @@ export default {
   data: function () {
     return {
       student: {},
-      // name: "",
       namesList: [],
       topic: {},
-      newRow: [],
-      topName: "",
       topicsList: [],
+      dropDownTopic: "",
+      topName: "",
       exName: "",
       exerciseList: [],
-      // topicName: "",
-      dropDownTopic: ""
     }
   },
   created(){   //selle abil tulevad andmed automaatselt

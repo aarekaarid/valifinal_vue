@@ -13,17 +13,11 @@
       <tr v-for="(row, index) in summaryList">
         <td>{{ index + 1 }}</td>
         <td>{{ row.studentName }}</td>
-        <!--          <select v-model="row.dropDown">-->
-        <!--            <option v-for="option in namesList" v-bind:value="option.name">-->
-        <!--              {{ option.name }}-->
-        <!--            </option>-->
-        <!--          </select>-->
         <td>{{ row.topicName }}</td>
         <td>{{ row.exerciseName }}</td>
         <td>{{ row.grade }}</td>
       </tr>
     </table>
-<!--    <p><input v-model="name" placeholder="pick name"></p>-->
     <p>
       <select v-model="dropDownStudent">  <!--NB! This is the  selected value-->
         <option v-for="option in namesList" v-bind:value="option.name">
@@ -31,26 +25,22 @@
         </option>
       </select>
     </p>
-<!--    <p><input v-model="topicName" placeholder="pick topic"></p>-->
-    <p>
       <select v-model="dropDownTopic">  <!--NB! This is the  selected value-->
         <option v-for="option in topicsList" v-bind:value="option.topicName">
           {{option.topicName}}
         </option>
       </select>
-<!--      <input v-model="exerciseName" placeholder="pick exercise">-->
-    </p>
+      <button v-on:click="displayExercises()">Check exercises</button>
     <p>
       <select v-model="dropDownExercise">  <!--NB! This is the  selected value-->
         <option v-for="option in exerciseList" v-bind:value="option.exerciseName">
           {{option.exerciseName}}
         </option>
       </select>
-      <!--      <input v-model="grade" placeholder="insert grade">-->
     </p>
     <p>
       <select v-model="dropDownGrade">  <!--NB! This is the  selected value-->
-        <option v-for="option in dropDownGrade" v-bind:value="option.gradeId">
+        <option v-for="option in dropDownGradeJsons" v-bind:value="option.gradeValue">
           {{option.gradeValue}}
         </option>
       </select>
@@ -70,10 +60,6 @@
 </template>
 
 <script>
-let addRowF = function () {
-  this.summaryList.push({});
-}
-
 let returnSummaryF = function (response) {
   this.summaryList = response.data;
   console.log(this.summaryList)
@@ -109,7 +95,7 @@ let returnExercises = function (response) {
 }
 
 let displayExercises = function () {
-  let url = "http://localhost:8080/exercise/"+"CSS";
+  let url = "http://localhost:8080/exercise/"+this.dropDownTopic;
   this.$http.get(url).then(this.returnExercises);
 }
 
@@ -118,31 +104,20 @@ let insertGradeF = function () {
   let requestParams = {
     params: {
       name: this.dropDownStudent,
-      exerciseName: this.exerciseName,
-      grade: this.grade
+      exerciseName: this.dropDownExercise,
+      grade: this.dropDownGrade
     }
   }
   this.$http.put(url, {}, requestParams).then(this.returnSummary);
-  this.dropDownStudent = "";
-  this.exerciseName = "";
-  this.grade = "";
+  this.dropDownTopic = "";
+  this.dropDownExercise = "";
+  this.dropDownGrade = "";
 }
-
-// let returnTopId = function (response) {
-//   this.a = response.data;
-// }
-//
-// let pickTopicF = function () {
-//   let url = "http://localhost:8080/topic/" + this.topName;
-//   this.$http.get(url).then(this.returnTopId);
-//   this.topName = "";
-// }
 
 export default {
   methods: {
-    addRow: addRowF,
     returnSummary: returnSummaryF,
-    displaySummary: displaySummaryF,//created osas ka
+    displaySummary: displaySummaryF,
     returnNames: returnNamesF,
     displayNames: displayNamesF,
     insertGrade: insertGradeF,
@@ -150,7 +125,6 @@ export default {
     displayTopics: displayTopics,
     returnExercises: returnExercises,
     displayExercises: displayExercises,
-
   },
   data: function () {
     return {
@@ -158,25 +132,25 @@ export default {
       summaryList: [],
       namesList: [],
       topicsList: [],
+      exerciseList: [],
       name: "",
       exerciseName: "",
-      // studentId: 0,
-      // exerciseId: 0,
       grade: "",
       topName: "",
       dropDownStudent:"",
       dropDownTopic:"",
       dropDownExercise:"",
-      dropDownGrade:
-          [{gradeId:1, gradeValue:true},
-            {gradeId:2, gradeValue:false}]
+      dropDownGrade:"",
+      dropDownGradeJsons:
+          [{gradeValue:true},
+            {gradeValue:false}]
     }
   },
   created() {   //selle abil tulevad andmed automaatselt
     this.displaySummary();
     this.displayNames();
     this.displayTopics();
-    this.displayExercises()
+    // this.displayExercises()
   }
 }
 
