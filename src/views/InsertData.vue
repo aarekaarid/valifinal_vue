@@ -54,6 +54,9 @@
       </option>
     </select>
     </p>
+    <p>
+      <button v-on:click="displayExercises()">Check exercises</button>
+    </p>
     <!--END OF TOPICS DROPDOWN-->
     <table  align="center" border="1">
       <tr>
@@ -120,7 +123,7 @@ let returnExercises = function (response) {
 }
 
 let displayExercises = function () {
-  let url = "http://localhost:8080/exercise/"+"CSS";
+  let url = "http://localhost:8080/exercise/"+this.dropDownTopic;
   this.$http.get(url).then(this.returnExercises);
 }
 // END OF EXERCISE LIST
@@ -168,7 +171,7 @@ export default {
   created(){   //selle abil tulevad andmed automaatselt
     this.displayTopics();
     this.displayNames();
-    this.displayExercises()
+    // this.displayExercises()
   }
 }
 </script>
