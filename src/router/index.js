@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Generator from "@/views/InsertData";
 import InsertData from "@/views/InsertData";
 import InsertGrade from "@/views/InsertGrade";
+import GenerateTest from "@/views/GenerateTest";
 
 Vue.use(VueRouter)
 
@@ -19,14 +20,14 @@ const routes = [
     component: InsertData
   },
   {
-    path: '/insertdata',
-    name: 'InsertData',
-    component: InsertData
-  },
-  {
     path: '/insertgrade',
     name: 'InsertGrade',
     component: InsertGrade
+  },
+  {
+    path: '/generate',
+    name: 'GenerateTest',
+    component: GenerateTest
   },
   {
     path: '/about',

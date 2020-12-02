@@ -4,6 +4,7 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/insertdata">Insert data</router-link> |
       <router-link to="/insertgrade">Insert grade</router-link> |
+      <router-link to="/generate">Generate test</router-link> |
       <router-link to="/about">About</router-link> |
     </div>
     <router-view/>

@@ -20,19 +20,21 @@
     </table>
     <p>
       <select v-model="dropDownStudent">  <!--NB! This is the  selected value-->
+        <option value="" selected disabled>choose name</option>
         <option v-for="option in namesList" v-bind:value="option.name">
           {{option.name}}
         </option>
       </select>
     </p>
-      <select v-model="dropDownTopic">  <!--NB! This is the  selected value-->
+      <select v-on:change="displayExercises()" v-model="dropDownTopic">  <!--NB! This is the  selected value-->
+        <option value="" selected disabled>choose topic</option>
         <option v-for="option in topicsList" v-bind:value="option.topicName">
           {{option.topicName}}
         </option>
       </select>
-      <button v-on:click="displayExercises()">Check exercises</button>
     <p>
       <select v-model="dropDownExercise">  <!--NB! This is the  selected value-->
+        <option value="" selected disabled>choose exercise</option>
         <option v-for="option in exerciseList" v-bind:value="option.exerciseName">
           {{option.exerciseName}}
         </option>
@@ -40,6 +42,7 @@
     </p>
     <p>
       <select v-model="dropDownGrade">  <!--NB! This is the  selected value-->
+        <option value="" selected disabled>choose grade</option>
         <option v-for="option in dropDownGradeJsons" v-bind:value="option.gradeValue">
           {{option.gradeValue}}
         </option>

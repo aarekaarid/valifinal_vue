@@ -39,14 +39,12 @@
     <h1>CHOOSE TOPIC/ ADD EXERCISE</h1>
     <!--TOPICS DROPDOWN-->
     <p>
-    <select v-model="dropDownTopic">  <!--NB! This is the  selected value-->
+    <select v-on:change="displayExercises()" v-model="dropDownTopic">  <!--NB! This is the  selected value-->
+      <option value="" selected disabled>choose topic</option>
       <option v-for="option in topicsList" v-bind:value="option.topicName">
         {{option.topicName}}
       </option>
     </select>
-    </p>
-    <p>
-      <button v-on:click="displayExercises()">Check exercises</button>
     </p>
     <!--END OF TOPICS DROPDOWN-->
     <table  align="center" border="1">
