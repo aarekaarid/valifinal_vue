@@ -47,18 +47,9 @@
           {{option.gradeValue}}
         </option>
       </select>
-<!--      <input v-model="grade" placeholder="insert grade">-->
     </p>
-
     <button v-on:click="insertGrade()">Submit</button>
     <br><br>
-<!--    <br><br><br>-->
-<!--    <p>-->
-<!--      <input v-model="topName" placeholder="pick topic"><br>-->
-<!--    </p>-->
-<!--    <button v-on:click="pickTopic()">Pick topic</button>-->
-<!--    <br>-->
-<!--    {{ a }}-->
   </div>
 </template>
 

@@ -5,6 +5,7 @@ import Generator from "@/views/InsertData";
 import InsertData from "@/views/InsertData";
 import InsertGrade from "@/views/InsertGrade";
 import GenerateTest from "@/views/GenerateTest";
+import SiteUser from "@/views/SiteUser";
 
 Vue.use(VueRouter)
 
@@ -13,6 +14,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/siteuser',
+    name: 'SiteUser',
+    component: SiteUser
   },
   {
     path: '/insertdata',

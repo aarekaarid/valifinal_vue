@@ -1,6 +1,30 @@
+<style>
+/*.home{*/
+/*  background-image: url("https://media-exp1.licdn.com/dms/image/C560BAQEOuQ7My1_XpQ/company-logo_200_200/0?e=2159024400&v=beta&t=I_zKiQJcUUOOU7s4B5Lv_dFwueKjQUHuHLvztdPF6SM");*/
+/*}*/
+p {
+  color: black;
+  font-family:"Dubai Medium";
+  font-size: x-large;
+}
+button{
+  background-color: forestgreen;
+}
+select{
+  background: #2c3e50;
+  color: antiquewhite;
+  border-color: #2c3e50;
+}
+table{
+  background:darkgrey;
+  color: black;
+}
+</style>
+
 <template>
-  <div class="home">
+  <div class="home" >
     <br>
+    <h1>Generate test</h1>
     <p>
       <select v-model="dropDownStudent">  <!--NB! This is the  selected value-->
         <option value="" selected disabled>choose name</option>
@@ -32,7 +56,7 @@ let returnTest = function (response) {
 let generateTest = function () {
   let url = "http://localhost:8080/generatetest/"+this.dropDownStudent;
   this.$http.get(url).then(this.returnTest)
-  this.dropDownStudent = "";
+  // this.dropDownStudent = "";
 }
 
 export default {
