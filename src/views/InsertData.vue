@@ -120,7 +120,6 @@ let addExercise = function () {
   this.$http.put(url, {}, requestParams).then(this.returnExercises);
   this.exName = "";
 }
-// END OF EXERCISE
 
 export default {
   methods: {

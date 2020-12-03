@@ -6,9 +6,12 @@
     <input v-model="siteUser.password" type="password" placeholder="create password">
     <button v-on:click="addUser()">Submit</button>
     <br><br>
-    <input v-model="siteUser.registeredUsername" placeholder="insert username">
-    <input v-model="siteUser.registeredPassword" type="password" placeholder="insert password">
-    <button v-on:click="logIn()">Log in</button>
+    <br><br>
+    <br><br>
+    <input v-model="loginData.username" placeholder="insert username">
+    <input v-model="loginData.password" type="password" placeholder="insert password">
+    <button v-on:click="loginUser()">Log in</button>
+    <p>{{loginMessage}}</p>
   </div>
 </template>
 
@@ -19,15 +22,30 @@ let addUser = function (){
   this.siteUser={};
 }
 
+let returnLoginMessage = function (response){
+  this.loginMessage = response.data;
+}
+
+let loginUser = function (){
+  let url = "http://localhost:8080/validateuser";
+  this.$http.put(url, this.loginData).then(this.returnLoginMessage);
+  this.loginData = {};
+}
+
 //here are all the methods and variables, that I want to use in HTML
 export default {
   methods: {
     addUser: addUser,
-    // logIn: logIn
+    loginUser: loginUser,
+    returnLoginMessage: returnLoginMessage,
   },
   data: function () {
     return {
       siteUser: {},
+      // loginUsername: "",
+      // loginPassword: "",
+      loginMessage: "",
+      loginData: {},
     }
   },
 }
