@@ -34,7 +34,7 @@ table{
       </select>
     </p>
     <button v-on:click="generateTest()">Generate test</button>
-    <p id="test"></p>
+    <p>{{testList}}</p>
   </div>
 </template>
 
@@ -50,7 +50,7 @@ let displayNames = function () {
 
 let returnTest = function (response) {
   this.testList = response.data;
-  document.getElementById("test").innerText = response.data;
+  // document.getElementById("test").innerText = response.data;
 }
 
 let generateTest = function () {

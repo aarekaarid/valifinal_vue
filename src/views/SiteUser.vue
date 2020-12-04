@@ -30,6 +30,9 @@ let loginUser = function (){
   let url = "http://localhost:8080/validateuser";
   this.$http.put(url, this.loginData).then(this.returnLoginMessage);
   this.loginData = {};
+  localStorage.setItem('user-token', token) // store the token
+  this.$http.defaults.headers.common['Authorization'] = "Bearer" + token
+  localStorage.removeItem('user-token') // remove on logout
 }
 
 //here are all the methods and variables, that I want to use in HTML

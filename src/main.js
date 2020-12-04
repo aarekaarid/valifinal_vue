@@ -10,3 +10,9 @@ new Vue({
   router,
   render: function (h) { return h(App) }
 }).$mount('#app')
+
+// connecting token with all the requests between back- and front-end
+const token = localStorage.getItem('user-token')
+if (token) {
+  axios.defaults.headers.common['Authorization']="Bearer"+ token
+}
