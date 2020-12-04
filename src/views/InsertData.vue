@@ -79,7 +79,10 @@ let displayNames = function () {
 
 let addStudent = function () {
   let url = "http://localhost:8080/student";
-  this.$http.post(url, this.student).then(this.returnNames);
+  this.$http.post(url, this.student).then(this.returnNames)
+      .catch(function (error){
+        alert(JSON.stringify(error.response.data))
+      });
   this.student = {};
 }
 //END OF STUDENT
@@ -135,7 +138,7 @@ let addExercise = function () {
   }
   this.$http.put(url, {}, requestParams).then(this.returnExercises)
       .catch(function (error) {
-        alert(JSON.stringify(error.response.data)); //
+        alert(JSON.stringify(error.response.data)); //Making the JSON message to sting for showing in alert
         // console.log(error.response.data); // this is the part you need that catches 400 request
       });
 }
@@ -177,7 +180,6 @@ export default {
       topName: "",
       exName: "",
       exerciseList: [],
-
       errorMessage: "",
     }
   },
