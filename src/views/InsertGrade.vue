@@ -21,7 +21,7 @@
     <p>
       <select v-model="dropDownStudent">  <!--NB! This is the  selected value-->
         <option value="" selected disabled>choose name</option>
-        <option v-for="option in namesList" v-bind:value="option.name">
+        <option v-for="option in namesList" v-bind:value="option.firstName">
           {{option.name}}
         </option>
       </select>
@@ -129,7 +129,7 @@ export default {
       exerciseList: [],
       name: "",
       exerciseName: "",
-      grade: "",
+      grade: "null",
       topName: "",
       dropDownStudent:"",
       dropDownTopic:"",

@@ -6,11 +6,13 @@
     <table align="center" border="1">
       <tr>
         <th>ID</th>
-        <th>STUDENTS</th>
+        <th>STUDENT NAME</th>
       </tr>
       <tr v-for="(row, index) in namesList">
         <td>{{ index + 1 }}</td>
-        <td>{{ row.name }}</td>
+        <td><input v-bind:disabled="!row.active" v-model="row.name"></td>
+        <td><button v-on:click="activateName(row, index)">activate</button></td>
+        <td><button v-bind:disabled="!row.active" v-on:click="updateStudent(row)">Update</button></td>
       </tr>
     </table>
     <p>
@@ -27,14 +29,15 @@
       </tr>
       <tr v-for="(row, index) in topicsList">
         <td>{{ index + 1 }}</td>
-        <td>{{ row.topicName }}</td>
+        <td><input v-bind:disabled="!row.active" v-model="row.topicName"></td>
+        <td><button v-on:click="activateTopic(row, index)">activate</button></td>
+        <td><button v-bind:disabled="!row.active" v-on:click="updateTopic(row)">Update</button></td>
       </tr>
     </table>
     <p>
       <input v-model="topic.topicName" placeholder="insert topic name"></p>
     <button v-on:click="addTopic()">Submit</button>
     <br>
-    <!--    <button v-on:click="displayTopics()">Display topics</button>-->
     <br><br>
 
     <h1>CHOOSE TOPIC/ ADD EXERCISE</h1>
@@ -82,6 +85,19 @@ let addStudent = function () {
   this.$http.post(url, this.student).then(this.returnNames);
   this.student = {};
 }
+
+let activateName = function (row, index){
+  row.active = true;
+  this.namesList.splice(index, 1, row)
+}
+
+let updateStudent = function (row, index){
+  let url = "http://localhost:8080/student/update";
+  this.$http.put(url, row)
+  row.active = false;
+  this.namesList.splice(index, row)
+  // this.student = {};
+}
 //END OF STUDENT
 
 //TOPIC
@@ -98,6 +114,11 @@ let addTopic = function () {
   let url = "http://localhost:8080/topic";
   this.$http.post(url, this.topic).then(this.returnTopics);
   this.topic = {};
+}
+
+let activateTopic = function (row, index){
+  row.active = true;
+  this.topicsList.splice(index, 1, row)
 }
 //END OF TOPIC
 
@@ -118,13 +139,6 @@ let displayExercises = function () {
   // .then(() => alert(error.message));
 }
 
-// try {
-//   displayExercises()
-// } catch (err) {
-//   document.getElementById("error").innerText = err.message;
-// }
-
-
 let addExercise = function () {
   let url = "http://localhost:8080/exercise";
   let requestParams = {
@@ -135,23 +149,16 @@ let addExercise = function () {
   }
   this.$http.put(url, {}, requestParams).then(this.returnExercises)
       .catch(function (error) {
-        alert(JSON.stringify(error.response.data)); //
+        alert(JSON.stringify(error.response.data)); //this is the part you need that catches 400 request
         // console.log(error.response.data); // this is the part you need that catches 400 request
       });
 }
-//           error => {
-//         if (error.response) {
-//           console.log(error.response.data);
-//         }
-//       });
-//   this.exName = "";
-// }
-
-// const err = Error("This exercise is already in your list")
 
 export default {
   methods: {
+    activateName: activateName,
     addStudent: addStudent,
+    updateStudent: updateStudent,
     returnNames: returnNames,
     displayNames: displayNames,
     addTopic: addTopic,
@@ -177,7 +184,6 @@ export default {
       topName: "",
       exName: "",
       exerciseList: [],
-
       errorMessage: "",
     }
   },
