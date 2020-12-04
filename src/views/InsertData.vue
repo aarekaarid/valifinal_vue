@@ -5,8 +5,8 @@
     <h1>INSERT STUDENT</h1>
     <table align="center" border="1">
       <tr>
-        <th>ID</th>
-        <th>STUDENT NAME</th>
+        <th>No</th>
+        <th>STUDENTS</th>
       </tr>
       <tr v-for="(row, index) in namesList">
         <td>{{ index + 1 }}</td>
@@ -82,7 +82,10 @@ let displayNames = function () {
 
 let addStudent = function () {
   let url = "http://localhost:8080/student";
-  this.$http.post(url, this.student).then(this.returnNames);
+  this.$http.post(url, this.student).then(this.returnNames)
+      .catch(function (error){
+        alert(JSON.stringify(error.response.data))
+      });
   this.student = {};
 }
 
