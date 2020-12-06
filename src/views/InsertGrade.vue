@@ -15,41 +15,48 @@
         <td>{{ row.studentName }}</td>
         <td>{{ row.topicName }}</td>
         <td>{{ row.exerciseName }}</td>
-        <td>{{ row.grade }}</td>
+        <td><select v-model="row.dropDownGrade">  <!--NB! This is the  selected value-->
+          <option value="" selected disabled>choose grade</option>
+          <option v-for="option in dropDownGradeJsons" v-bind:value="option.gradeValue">
+            {{ option.gradeValue }}
+          </option>
+        </select></td>
+        <td>
+          <button v-on:click="updateGrade(row)">Update</button>
+        </td>
       </tr>
     </table>
-    <p>
-      <select v-model="dropDownStudent">  <!--NB! This is the  selected value-->
-        <option value="" selected disabled>choose name</option>
-        <option v-for="option in namesList" v-bind:value="option.firstName">
-          {{option.name}}
-        </option>
-      </select>
-    </p>
-      <select v-on:change="displayExercises()" v-model="dropDownTopic">  <!--NB! This is the  selected value-->
-        <option value="" selected disabled>choose topic</option>
-        <option v-for="option in topicsList" v-bind:value="option.topicName">
-          {{option.topicName}}
-        </option>
-      </select>
-    <p>
-      <select v-model="dropDownExercise">  <!--NB! This is the  selected value-->
-        <option value="" selected disabled>choose exercise</option>
-        <option v-for="option in exerciseList" v-bind:value="option.exerciseName">
-          {{option.exerciseName}}
-        </option>
-      </select>
-    </p>
-    <p>
-      <select v-model="dropDownGrade">  <!--NB! This is the  selected value-->
-        <option value="" selected disabled>choose grade</option>
-        <option v-for="option in dropDownGradeJsons" v-bind:value="option.gradeValue">
-          {{option.gradeValue}}
-        </option>
-      </select>
-    </p>
-    <button v-on:click="insertGrade()">Submit</button>
-    <br><br>
+<!--    <p>-->
+<!--      <select v-model="dropDownStudent">  &lt;!&ndash;NB! This is the  selected value&ndash;&gt;-->
+<!--        <option value="" selected disabled>choose name</option>-->
+<!--        <option v-for="option in namesList" v-bind:value="option.name">-->
+<!--          {{ option.name }}-->
+<!--        </option>-->
+<!--      </select>-->
+<!--    </p>-->
+<!--    <select v-on:change="displayExercises()" v-model="dropDownTopic">  &lt;!&ndash;NB! This is the  selected value&ndash;&gt;-->
+<!--      <option value="" selected disabled>choose topic</option>-->
+<!--      <option v-for="option in topicsList" v-bind:value="option.topicName">-->
+<!--        {{ option.topicName }}-->
+<!--      </option>-->
+<!--    </select>-->
+<!--    <p>-->
+<!--      <select v-model="dropDownExercise">  &lt;!&ndash;NB! This is the  selected value&ndash;&gt;-->
+<!--        <option value="" selected disabled>choose exercise</option>-->
+<!--        <option v-for="option in exerciseList" v-bind:value="option.exerciseName">-->
+<!--          {{ option.exerciseName }}-->
+<!--        </option>-->
+<!--      </select>-->
+<!--    </p>-->
+<!--    <p>-->
+<!--      <select v-model="dropDownGrade">  &lt;!&ndash;NB! This is the  selected value&ndash;&gt;-->
+<!--        <option value="" selected disabled>choose grade</option>-->
+<!--        <option v-for="option in dropDownGradeJsons" v-bind:value="option.gradeValue">-->
+<!--          {{ option.gradeValue }}-->
+<!--        </option>-->
+<!--      </select>-->
+<!--    </p>-->
+<!--    <button v-on:click="insertGrade()">Submit</button>-->
   </div>
 </template>
 
@@ -62,6 +69,19 @@ let returnSummaryF = function (response) {
 let displaySummaryF = function () {
   let url = "http://localhost:8080/summary/table";
   this.$http.get(url).then(this.returnSummary);
+}
+
+let updateGrade = function (row) {
+  let url = "http://localhost:8080/grade/update";
+  console.log(row.grade);
+  let requestParams = {
+    params: {
+      studentName: row.studentName,
+      exerciseName: row.exerciseName,
+      grade: row.dropDownGrade
+    }
+  };
+  this.$http.put(url, {}, requestParams);
 }
 
 let returnNamesF = function (response) {
@@ -89,7 +109,7 @@ let returnExercises = function (response) {
 }
 
 let displayExercises = function () {
-  let url = "http://localhost:8080/exercise/"+this.dropDownTopic;
+  let url = "http://localhost:8080/exercise/" + this.dropDownTopic;
   this.$http.get(url).then(this.returnExercises);
 }
 
@@ -112,6 +132,7 @@ export default {
   methods: {
     returnSummary: returnSummaryF,
     displaySummary: displaySummaryF,
+    updateGrade: updateGrade,
     returnNames: returnNamesF,
     displayNames: displayNamesF,
     insertGrade: insertGradeF,
@@ -127,17 +148,17 @@ export default {
       namesList: [],
       topicsList: [],
       exerciseList: [],
-      name: "",
+      studentName: "",
       exerciseName: "",
       grade: "null",
       topName: "",
-      dropDownStudent:"",
-      dropDownTopic:"",
-      dropDownExercise:"",
-      dropDownGrade:"",
+      dropDownStudent: "",
+      dropDownTopic: "",
+      dropDownExercise: "",
+      dropDownGrade: "",
       dropDownGradeJsons:
-          [{gradeValue:true},
-            {gradeValue:false}]
+          [{gradeValue: "OK"},
+            {gradeValue: "Failed"}]
     }
   },
   created() {   //selle abil tulevad andmed automaatselt

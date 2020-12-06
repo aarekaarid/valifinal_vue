@@ -24,13 +24,14 @@
     <h1>INSERT TOPIC</h1>
     <table align="center" border="1">
       <tr>
-        <th>ID</th>
+        <th>No</th>
         <th>TOPICS</th>
       </tr>
       <tr v-for="(row, index) in topicsList">
         <td>{{ index + 1 }}</td>
         <td><input v-bind:disabled="!row.active" v-model="row.topicName"></td>
-        <td><button v-on:click="activateTopic(row, index)">activate</button></td>
+<!--        <td><input v-bind:disabled="!row.active" v-model="row.id">-->
+        <td><button v-on:click="activateTopic(row)">activate</button></td>
         <td><button v-bind:disabled="!row.active" v-on:click="updateTopic(row)">Update</button></td>
       </tr>
     </table>
@@ -53,7 +54,7 @@
     <!--END OF TOPICS DROPDOWN-->
     <table align="center" border="1">
       <tr>
-        <th>ID</th>
+        <th>No</th>
         <th>EXERCISES</th>
       </tr>
       <tr v-for="(row, index) in exerciseList">
@@ -62,7 +63,7 @@
       </tr>
     </table>
     <p>
-      <input v-model="exName" placeholder="insert exercise text"><br>
+      <input v-model="exerciseName" placeholder="insert exercise text"><br>
     </p>
     <p>{{ errorMessage }}</p>
     <button v-on:click="addExercise()">Submit</button>
@@ -89,17 +90,21 @@ let addStudent = function () {
   this.student = {};
 }
 
-let activateName = function (row, index){
+let activateName = function (row){
   row.active = true;
-  this.namesList.splice(index, 1, row)
+  this.namesList.splice();
 }
+//OR
+// let activateName = function (row, index) {
+//   row.active = true;
+//   this.namesList.splice(index, 1, row);
+// }
 
 let updateStudent = function (row, index){
   let url = "http://localhost:8080/student/update";
-  this.$http.put(url, row)
+  this.$http.put(url, row);
   row.active = false;
-  this.namesList.splice(index, row)
-  // this.student = {};
+  this.namesList.splice(index, row);
 }
 //END OF STUDENT
 
@@ -119,9 +124,16 @@ let addTopic = function () {
   this.topic = {};
 }
 
-let activateTopic = function (row, index){
+let activateTopic = function (row){
   row.active = true;
-  this.topicsList.splice(index, 1, row)
+  this.topicsList.splice()
+}
+
+let updateTopic = function (row, index){
+  let url = "http://localhost:8080/topic/update";
+  this.$http.put(url, row);
+  row.active = false;
+  this.topicsList.splice(row, index);
 }
 //END OF TOPIC
 
@@ -146,8 +158,8 @@ let addExercise = function () {
   let url = "http://localhost:8080/exercise";
   let requestParams = {
     params: {
-      topName: this.dropDownTopic,
-      exName: this.exName,
+      topicName: this.dropDownTopic,
+      exerciseName: this.exerciseName,
     }
   }
   this.$http.put(url, {}, requestParams).then(this.returnExercises)
@@ -159,14 +171,16 @@ let addExercise = function () {
 
 export default {
   methods: {
-    activateName: activateName,
     addStudent: addStudent,
-    updateStudent: updateStudent,
     returnNames: returnNames,
     displayNames: displayNames,
+    activateName: activateName,
+    updateStudent: updateStudent,
     addTopic: addTopic,
     returnTopics: returnTopics,
     displayTopics: displayTopics,
+    activateTopic: activateTopic,
+    updateTopic: updateTopic,
     addExercise: addExercise,
     returnExercises: returnExercises,
     displayExercises: displayExercises,
@@ -184,8 +198,8 @@ export default {
       topic: {},
       topicsList: [],
       dropDownTopic: "",
-      topName: "",
-      exName: "",
+      topicName: "",
+      exerciseName: "",
       exerciseList: [],
       errorMessage: "",
     }
