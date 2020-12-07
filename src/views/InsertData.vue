@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <br>
-    <p>{{ sum(2, 4) }}</p>
     <h1>INSERT STUDENT</h1>
     <table align="center" border="1">
       <tr>
@@ -59,7 +58,10 @@
       </tr>
       <tr v-for="(row, index) in exerciseList">
         <td>{{ index + 1 }}</td>
-        <td>{{ row.exerciseName }}</td>
+<!--        <td>{{row.exerciseName}}</td>-->
+        <td><input v-bind:disabled="!row.active" v-model="row.exerciseName"></td>
+        <td><button v-on:click="activateExercise(row)">activate</button></td>
+        <td><button v-bind:disabled="!row.active" v-on:click="updateExercise(row)">Update</button></td>
       </tr>
     </table>
     <p>
@@ -71,7 +73,7 @@
 </template>
 
 <script>
-//STUDENT
+//START STUDENT
 let returnNames = function (response) {
   this.namesList = response.data;
 }
@@ -108,7 +110,7 @@ let updateStudent = function (row, index){
 }
 //END OF STUDENT
 
-//TOPIC
+//START TOPIC
 let returnTopics = function (response) {
   this.topicsList = response.data;
 }
@@ -126,7 +128,7 @@ let addTopic = function () {
 
 let activateTopic = function (row){
   row.active = true;
-  this.topicsList.splice()
+  this.topicsList.splice();
 }
 
 let updateTopic = function (row, index){
@@ -137,11 +139,11 @@ let updateTopic = function (row, index){
 }
 //END OF TOPIC
 
-//EXERCISE
+//START EXERCISE
 let returnExercises = function (response) {
   this.exerciseList = response.data;
   // this.errorMessage = response.error;
-  // console.log(this.errorMessage)
+  console.log(this.errorMessage)
 }
 
 let returnError = function (error) {
@@ -162,12 +164,27 @@ let addExercise = function () {
       exerciseName: this.exerciseName,
     }
   }
+
   this.$http.put(url, {}, requestParams).then(this.returnExercises)
       .catch(function (error) {
         alert(JSON.stringify(error.response.data)); //this is the part you need that catches 400 request
         // console.log(error.response.data); // this is the part you need that catches 400 request
       });
 }
+
+let activateExercise = function (row){
+  row.active = true;
+  this.exerciseList.splice();
+}
+
+let updateExercise = function (row, index){
+  let url = "http://localhost:8080/exercise/update";
+  this.$http.put(url, row);
+  row.active = false; // deacticating the cell after clicking Update!!!
+  this.exerciseList.splice(row, index); //need to investigate!!!
+}
+
+//END OF EXERCISE
 
 export default {
   methods: {
@@ -184,11 +201,10 @@ export default {
     addExercise: addExercise,
     returnExercises: returnExercises,
     displayExercises: displayExercises,
+    activateExercise: activateExercise,
+    updateExercise: updateExercise,
     returnError: returnError,
 
-    sum: function (a, b) {
-      return a + b;
-    }
   },
   data: function () {
     return {

@@ -26,6 +26,11 @@
         </td>
       </tr>
     </table>
+    <br>
+<!--    TESTING-->
+    <p v-bind:style="[baseStyles, overrideStyles]">
+      baseStyles and overrideStyles
+    </p>
 <!--    <p>-->
 <!--      <select v-model="dropDownStudent">  &lt;!&ndash;NB! This is the  selected value&ndash;&gt;-->
 <!--        <option value="" selected disabled>choose name</option>-->
@@ -158,9 +163,20 @@ export default {
       dropDownGrade: "",
       dropDownGradeJsons:
           [{gradeValue: "OK"},
-            {gradeValue: "Failed"}]
+            {gradeValue: "Failed"}],
+      //Styles example:
+      baseStyles: {
+        fontWeight:'800',
+        color: 'red'
+      },
+      overrideStyles: {
+        color:'blue'
+      }
     }
   },
+
+
+
   created() {   //selle abil tulevad andmed automaatselt
     this.displaySummary();
     this.displayNames();
