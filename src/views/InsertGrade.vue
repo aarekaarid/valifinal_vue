@@ -26,42 +26,26 @@
         </td>
       </tr>
     </table>
-    <br>
-<!--    TESTING-->
-    <p v-bind:style="[baseStyles, overrideStyles]">
-      baseStyles and overrideStyles
-    </p>
-<!--    <p>-->
-<!--      <select v-model="dropDownStudent">  &lt;!&ndash;NB! This is the  selected value&ndash;&gt;-->
-<!--        <option value="" selected disabled>choose name</option>-->
-<!--        <option v-for="option in namesList" v-bind:value="option.name">-->
-<!--          {{ option.name }}-->
-<!--        </option>-->
-<!--      </select>-->
-<!--    </p>-->
-<!--    <select v-on:change="displayExercises()" v-model="dropDownTopic">  &lt;!&ndash;NB! This is the  selected value&ndash;&gt;-->
-<!--      <option value="" selected disabled>choose topic</option>-->
-<!--      <option v-for="option in topicsList" v-bind:value="option.topicName">-->
-<!--        {{ option.topicName }}-->
-<!--      </option>-->
-<!--    </select>-->
-<!--    <p>-->
-<!--      <select v-model="dropDownExercise">  &lt;!&ndash;NB! This is the  selected value&ndash;&gt;-->
-<!--        <option value="" selected disabled>choose exercise</option>-->
-<!--        <option v-for="option in exerciseList" v-bind:value="option.exerciseName">-->
-<!--          {{ option.exerciseName }}-->
-<!--        </option>-->
-<!--      </select>-->
-<!--    </p>-->
-<!--    <p>-->
-<!--      <select v-model="dropDownGrade">  &lt;!&ndash;NB! This is the  selected value&ndash;&gt;-->
-<!--        <option value="" selected disabled>choose grade</option>-->
-<!--        <option v-for="option in dropDownGradeJsons" v-bind:value="option.gradeValue">-->
-<!--          {{ option.gradeValue }}-->
-<!--        </option>-->
-<!--      </select>-->
-<!--    </p>-->
-<!--    <button v-on:click="insertGrade()">Submit</button>-->
+    <!--overview table-->
+    <br><br><br>
+    <table align="center" v-if="overviewList.length">
+      <tr>
+        <th>No</th>
+        <th>Student name</th>
+        <th v-for="(grade, index) in overviewList[0].grades">{{ index }}</th>
+      </tr>
+      <tr v-for="(row,index) in overviewList">
+        <td>{{ index + 1 }}</td>
+        <td>{{ row.name }}</td>
+        <td v-for="(grade) in row.grades"
+            :class="{passed: grade === 'OK', failed: grade === 'Failed',
+            empty: grade === 'null'}">{{ grade }}</td>
+      </tr>
+    </table>
+<!--    <div v-bind:class="{ ok, failed, empty }"></div>-->
+    <div v-if="!overviewList.length">
+      ...
+    </div>
   </div>
 </template>
 
@@ -133,6 +117,16 @@ let insertGradeF = function () {
   this.dropDownGrade = "";
 }
 
+let returnOverviewList = function (response) {
+  this.overviewList = response.data;
+  console.log(this.overviewList);
+}
+
+let displayOverviewList = function () {
+  let url = "http://localhost:8080/overview";
+  this.$http.get(url).then(this.returnOverviewList);
+}
+
 export default {
   methods: {
     returnSummary: returnSummaryF,
@@ -145,6 +139,8 @@ export default {
     displayTopics: displayTopics,
     returnExercises: returnExercises,
     displayExercises: displayExercises,
+    returnOverviewList: returnOverviewList,
+    displayOverviewList: displayOverviewList
   },
   data: function () {
     return {
@@ -164,25 +160,28 @@ export default {
       dropDownGradeJsons:
           [{gradeValue: "OK"},
             {gradeValue: "Failed"}],
-      //Styles example:
-      baseStyles: {
-        fontWeight:'800',
-        color: 'red'
-      },
-      overrideStyles: {
-        color:'blue'
-      }
+      overviewList: [],
     }
   },
-
-
-
   created() {   //selle abil tulevad andmed automaatselt
     this.displaySummary();
     this.displayNames();
     this.displayTopics();
+    this.displayOverviewList();
     // this.displayExercises()
   }
 }
 
 </script>
+
+<style>
+.failed {
+  background: red;
+}
+.passed {
+  background: forestgreen;
+}
+.empty {
+  background: white;
+}
+</style>
