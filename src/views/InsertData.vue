@@ -90,20 +90,20 @@ let addStudent = function () {
   this.student = {};
 }
 
-let activateName = function (row){
-  row.active = true;
-  this.namesList.splice();
-}
-//OR
-// let activateName = function (row, index) {
-//   row.active = true;
-//   this.namesList.splice(index, 1, row);
+// let activateName = function (row){
+//   row.active = true;  //activating cell
+//   this.namesList.splice();
 // }
+//OR
+let activateName = function (row, index) {
+  row.active = true;
+  this.namesList.splice(index, 1, row);
+}
 
 let updateStudent = function (row, index){
   let url = "http://localhost:8080/student/update";
   this.$http.put(url, row);
-  row.active = false;
+  row.active = false; //deactivating cell while updating
   this.namesList.splice(index, row);
 }
 //END OF STUDENT

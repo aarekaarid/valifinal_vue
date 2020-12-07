@@ -35,6 +35,8 @@ table{
     </p>
     <button v-on:click="generateTest()">Generate test</button>
     <p>{{testList}}</p>
+
+    <button v-on:click="showTopic()">Generate test</button>
   </div>
 </template>
 
@@ -55,7 +57,9 @@ let returnTest = function (response) {
 
 let generateTest = function () {
   let url = "http://localhost:8080/generatetest/"+this.dropDownStudent;
-  this.$http.get(url).then(this.returnTest)
+  this.$http.get(url).then(this.returnTest).catch(function (error){
+    alert(JSON.stringify(error.response.data));
+  });
   // this.dropDownStudent = "";
 }
 
