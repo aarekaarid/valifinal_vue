@@ -138,7 +138,11 @@ let displayTopics = function () {
 
 let addTopic = function () {
   let url = "http://localhost:8080/topic";
-  this.$http.post(url, this.topic).then(this.returnTopics);
+  this.$http.post(url, this.topic).then(this.returnTopics)
+      .catch(function (error){
+        alert(JSON.stringify(error.response.data))
+      })
+      .then(this.displayTopics);
   this.topic = {};
 }
 
@@ -149,7 +153,11 @@ let activateTopic = function (row) {
 
 let updateTopic = function (row, index) {
   let url = "http://localhost:8080/topic/update";
-  this.$http.put(url, row);
+  this.$http.put(url, row)
+      .catch(function (error){
+        alert(JSON.stringify(error.response.data))
+      })
+      .then(this.displayTopics);  //NB! updates list to previous state after alert!!!
   row.active = false;
   this.topicsList.splice(row, index);
 }
