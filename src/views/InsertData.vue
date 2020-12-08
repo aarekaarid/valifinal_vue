@@ -2,7 +2,7 @@
   <div class="home">
     <br>
     <h1>INSERT STUDENT</h1>
-    <table align="center" border="1">
+    <table align="center" border="1" v-if="namesList.length">
       <tr>
         <th>No</th>
         <th>STUDENTS</th>
@@ -21,7 +21,7 @@
     <br><br>
 
     <h1>INSERT TOPIC</h1>
-    <table align="center" border="1">
+    <table align="center" border="1" v-if="topicsList.length">
       <tr>
         <th>No</th>
         <th>TOPICS</th>
@@ -35,7 +35,7 @@
       </tr>
     </table>
     <p>
-      <input v-model="topic.topicName" placeholder="insert topic name"></p>
+      <input v-model="topic.topicName" placeholder="insert topic name" ></p>
     <button v-on:click="addTopic()">Submit</button>
     <br>
     <br><br>
@@ -51,7 +51,7 @@
       </select>
     </p>
     <!--END OF TOPICS DROPDOWN-->
-    <table align="center" border="1">
+    <table align="center" border="1" v-if="exerciseList.length">
       <tr>
         <th>No</th>
         <th>EXERCISES</th>
@@ -65,7 +65,7 @@
       </tr>
     </table>
     <p>
-      <input v-model="exerciseName" placeholder="insert exercise text"><br>
+      <input v-model="exerciseName" placeholder="insert exercise text" width="" height="10"><br>
     </p>
     <p>{{ errorMessage }}</p>
     <button v-on:click="addExercise()">Submit</button>
@@ -78,18 +78,18 @@ let returnNames = function (response) {
   this.namesList = response.data;
 }
 
-let displayNames = function () {
-  let url = "http://localhost:8080/student/table";
-  this.$http.get(url).then(this.returnNames);
-}
-
 let addStudent = function () {
   let url = "http://localhost:8080/student";
-  this.$http.post(url, this.student).then(this.returnNames)
+  this.$http.post(url, this.student).then(this.displayNames)
       .catch(function (error){
         alert(JSON.stringify(error.response.data))
       });
   this.student = {};
+}
+
+let displayNames = function () {
+  let url = "http://localhost:8080/student/table";
+  this.$http.get(url).then(this.returnNames);
 }
 
 // let activateName = function (row){
@@ -105,7 +105,7 @@ let activateName = function (row, index) {
 let updateStudent = function (row, index){
   let url = "http://localhost:8080/student/update";
   this.$http.put(url, row);
-  row.active = false; //deactivating cell while updating
+  row.active = false; //deactivating cell after pressing 'update'
   this.namesList.splice(index, row);
 }
 //END OF STUDENT
@@ -164,11 +164,10 @@ let addExercise = function () {
       exerciseName: this.exerciseName,
     }
   }
-
-  this.$http.put(url, {}, requestParams).then(this.returnExercises)
+  this.$http.put(url, {}, requestParams)
+      .then(this.returnExercises)
       .catch(function (error) {
         alert(JSON.stringify(error.response.data)); //this is the part you need that catches 400 request
-        // console.log(error.response.data); // this is the part you need that catches 400 request
       });
 }
 
@@ -179,7 +178,10 @@ let activateExercise = function (row){
 
 let updateExercise = function (row, index){
   let url = "http://localhost:8080/exercise/update";
-  this.$http.put(url, row);
+  this.$http.put(url, row)
+      .catch(function (error) {
+    alert(JSON.stringify(error.response.data))
+  });
   row.active = false; // deacticating the cell after clicking Update!!!
   this.exerciseList.splice(row, index); //need to investigate!!!
 }

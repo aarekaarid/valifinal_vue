@@ -2,7 +2,7 @@
   <div class="home">
     <br>
     <h1>INSERT GRADES</h1>
-    <table border="1" align="center">
+    <table border="1" align="center" v-if="summaryList.length">
       <tr>
         <th>ID</th>
         <th>Student name</th>
@@ -22,17 +22,17 @@
           </option>
         </select></td>
         <td>
-          <button v-on:click="updateGrade(row)">Update</button>
+          <button v-on:click="updateGrade(row), displayOverviewList()">Insert</button>
         </td>
       </tr>
     </table>
     <!--overview table-->
     <br><br><br>
-    <table align="center" v-if="overviewList.length">
+    <table align="center" border="1" v-if="overviewList.length">
       <tr>
         <th>No</th>
         <th>Student name</th>
-        <th v-for="(grade, index) in overviewList[0].grades">{{ index }}</th>
+        <th v-for="(topic, index) in overviewList[0].grades">{{ index }}</th>
       </tr>
       <tr v-for="(row,index) in overviewList">
         <td>{{ index + 1 }}</td>
@@ -60,7 +60,7 @@ let displaySummaryF = function () {
   this.$http.get(url).then(this.returnSummary);
 }
 
-let updateGrade = function (row) {
+let updateGrade = function (row, index) {
   let url = "http://localhost:8080/grade/update";
   console.log(row.grade);
   let requestParams = {
@@ -70,7 +70,11 @@ let updateGrade = function (row) {
       grade: row.dropDownGrade
     }
   };
-  this.$http.put(url, {}, requestParams);
+  this.$http.put(url, {}, requestParams)
+      .then(this.returnSummary)
+      .catch(function (error) {
+        alert(JSON.stringify(error.response.data))
+      });
 }
 
 let returnNamesF = function (response) {
@@ -165,10 +169,7 @@ export default {
   },
   created() {   //selle abil tulevad andmed automaatselt
     this.displaySummary();
-    this.displayNames();
-    this.displayTopics();
     this.displayOverviewList();
-    // this.displayExercises()
   }
 }
 

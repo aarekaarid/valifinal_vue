@@ -4,25 +4,28 @@
 /*}*/
 p {
   color: black;
-  font-family:"Dubai Medium";
+  font-family: "Dubai Medium";
   font-size: x-large;
 }
-button{
+
+button {
   background-color: forestgreen;
 }
-select{
+
+select {
   background: #2c3e50;
   color: antiquewhite;
   border-color: #2c3e50;
 }
-table{
-  background:darkgrey;
+
+table {
+  background: darkgrey;
   color: black;
 }
 </style>
 
 <template>
-  <div class="home" >
+  <div class="home">
     <br>
     <h1>Generate test</h1>
     <p>
@@ -34,9 +37,17 @@ table{
       </select>
     </p>
     <button v-on:click="generateTest()">Generate test</button>
-    <p>{{testList}}</p>
+    <p>{{dropDownStudent}}</p>
 
-    <button v-on:click="showTopic()">Generate test</button>
+    <table align="center" border="1" v-if="testList.length">
+      <tr>
+        <th>Topic</th>
+        <th>Exercise</th>
+      </tr>
+      <tr v-for="(row, index) in testList">{{index}}
+        <td>{{row}}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -56,8 +67,8 @@ let returnTest = function (response) {
 }
 
 let generateTest = function () {
-  let url = "http://localhost:8080/generatetest/"+this.dropDownStudent;
-  this.$http.get(url).then(this.returnTest).catch(function (error){
+  let url = "http://localhost:8080/generatetest/" + this.dropDownStudent;
+  this.$http.get(url).then(this.returnTest).catch(function (error) {
     alert(JSON.stringify(error.response.data));
   });
   // this.dropDownStudent = "";
@@ -75,7 +86,7 @@ export default {
       namesList: [],
       dropDownStudent: "",
       studentName: "",
-      testList: [],
+      testList: {},
     }
   },
   created() {   //selle abil tulevad andmed automaatselt
