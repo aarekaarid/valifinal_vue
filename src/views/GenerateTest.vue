@@ -39,7 +39,7 @@ table {
     <button v-on:click="generateTest()">Generate test</button>
     <p>{{dropDownStudent}}</p>
 
-    <table align="center" border="1" v-if="testList.length">
+    <table align="center" border="1"> <!--  v-if="testList.length"  -->
       <tr>
         <th>Topic</th>
         <th>Exercise</th>
