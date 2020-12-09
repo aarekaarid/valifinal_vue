@@ -5,6 +5,8 @@ import axios from 'axios'   //added! (before in cmd: install axios!!!)
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios   //added!
+Vue.prototype.$host="http://localhost:8080" //for deployment
+// Vue.prototype.$host=""  //
 
 new Vue({
   router,
@@ -16,3 +18,4 @@ const token = localStorage.getItem('user-token')
 if (token) {
   axios.defaults.headers.common['Authorization']="Bearer"+ token
 }
+

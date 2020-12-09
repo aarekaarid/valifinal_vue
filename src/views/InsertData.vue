@@ -91,7 +91,7 @@ let returnNames = function (response) {
 }
 
 let addStudent = function () {
-  let url = "http://localhost:8080/student";
+  let url = this.$host + "/student";
   this.$http.post(url, this.student).then(this.displayNames)
       .catch(function (error) {
         alert(JSON.stringify(error.response.data))
@@ -100,7 +100,7 @@ let addStudent = function () {
 }
 
 let displayNames = function () {
-  let url = "http://localhost:8080/student/table";
+  let url = this.$host + "/student/table";
   this.$http.get(url).then(this.returnNames);
 }
 
@@ -115,7 +115,7 @@ let activateName = function (row, index) {
 }
 
 let updateStudent = function (row, index) {
-  let url = "http://localhost:8080/student/update";
+  let url = this.$host + "/student/update";
   this.$http.put(url, row)
       .catch(function (error) {
         alert(JSON.stringify(error.response.data));
@@ -132,12 +132,12 @@ let returnTopics = function (response) {
 }
 
 let displayTopics = function () {
-  let url = "http://localhost:8080/topic/table";
+  let url = this.$host + "/topic/table";
   this.$http.get(url).then(this.returnTopics);
 }
 
 let addTopic = function () {
-  let url = "http://localhost:8080/topic";
+  let url = this.$host + "/topic";
   this.$http.post(url, this.topic).then(this.returnTopics)
       .catch(function (error){
         alert(JSON.stringify(error.response.data))
@@ -152,7 +152,7 @@ let activateTopic = function (row) {
 }
 
 let updateTopic = function (row, index) {
-  let url = "http://localhost:8080/topic/update";
+  let url = this.$host + "/topic/update";
   this.$http.put(url, row)
       .catch(function (error){
         alert(JSON.stringify(error.response.data))
@@ -175,13 +175,13 @@ let returnError = function (error) {
 }
 
 let displayExercises = function () {
-  let url = "http://localhost:8080/exercise/" + this.dropDownTopic;
+  let url = this.$host + "/exercise/" + this.dropDownTopic;
   this.$http.get(url).then(this.returnExercises);
   // .then(() => alert(error.message));
 }
 
 let addExercise = function () {
-  let url = "http://localhost:8080/exercise";
+  let url = this.$host + "/exercise";
   let requestParams = {
     params: {
       topicName: this.dropDownTopic,
@@ -201,7 +201,7 @@ let activateExercise = function (row) {
 }
 
 let updateExercise = function (row, index) {
-  let url = "http://localhost:8080/exercise/update";
+  let url = this.$host + "/exercise/update";
   this.$http.put(url, row)
       .catch(function (error) {
         alert(JSON.stringify(error.response.data))

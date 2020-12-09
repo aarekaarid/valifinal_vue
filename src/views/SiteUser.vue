@@ -17,7 +17,7 @@
 
 <script>
 let addUser = function (){
-  let url = "http://localhost:8080/siteuser";
+  let url = this.$host + "/siteuser";
   this.$http.post(url, this.siteUser);
   this.siteUser={};
 }
@@ -27,7 +27,7 @@ let returnLoginMessage = function (response){
 }
 
 let loginUser = function (){
-  let url = "http://localhost:8080/validateuser";
+  let url = this.$host + "/validateuser";
   this.$http.put(url, this.loginData).then(this.returnLoginMessage);
   this.loginData = {};
   localStorage.setItem('user-token', token) // store the token
