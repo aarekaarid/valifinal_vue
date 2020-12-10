@@ -13,7 +13,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
   },
   {
     path: '/siteuser',
@@ -23,7 +23,7 @@ const routes = [
   {
     path: '/insertdata',
     name: 'InsertData',
-    component: InsertData
+    component: InsertData,
   },
   {
     path: '/insertgrade',

@@ -27,7 +27,8 @@ let returnLoginMessage = function (response){
   this.loginMessage = response.data;
   localStorage.setItem('user-token', response.data) // store the token
   this.$http.defaults.headers.common['Authorization'] = "Bearer" + response.data
-  location.reload()
+  this.$router.push( {path: '/generate'}) //SOLUTION FOR REDIRECTING!!!
+  location.reload() //THIS REFRESH IS NECESSARY TO LOAD THE LINKS
 }
 
 let loginUser = function (){
