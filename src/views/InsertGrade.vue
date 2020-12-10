@@ -1,50 +1,55 @@
 <template>
+
   <div class="home">
-    <br>
-    <h1>INSERT GRADES</h1>
-    <table border="1" align="center" v-if="summaryList.length">
-      <tr>
-        <th>ID</th>
-        <th>Student name</th>
-        <th>Topic name</th>
-        <th>Exercise name</th>
-        <th>Grade</th>
-      </tr>
-      <tr v-for="(row, index) in summaryList">
-        <td>{{ index + 1 }}</td>
-        <td>{{ row.studentName }}</td>
-        <td>{{ row.topicName }}</td>
-        <td>{{ row.exerciseName }}</td>
-        <td><select v-model="row.dropDownGrade">  <!--NB! This is the  selected value-->
-          <option value="" selected disabled>choose grade</option>
-          <option v-for="option in dropDownGradeJsons" v-bind:value="option.gradeValue">
-            {{ option.gradeValue }}
-          </option>
-        </select></td>
-        <td>
-          <button v-on:click="updateGrade(row), displayOverviewList()">Insert</button>
-        </td>
-      </tr>
-    </table>
+    <div id="insert_grade">
+      <h1>INSERT GRADES</h1>
+      <table border="1" v-if="summaryList.length">
+        <tr>
+          <th>No</th>
+          <th>Student</th>
+          <th>Topic</th>
+          <th>Exercise</th>
+          <th>Grade</th>
+        </tr>
+        <tr v-for="(row, index) in summaryList">
+          <td>{{ index + 1 }}</td>
+          <td>{{ row.studentName }}</td>
+          <td>{{ row.topicName }}</td>
+          <td>{{ row.exerciseName }}</td>
+          <td><select v-model="row.dropDownGrade">  <!--NB! This is the  selected value-->
+            <option value="" selected disabled>choose grade</option>
+            <option v-for="option in dropDownGradeJsons" v-bind:value="option.gradeValue">
+              {{ option.gradeValue }}
+            </option>
+          </select></td>
+          <td>
+            <button v-on:click="updateGrade(row), displayOverviewList()">Insert</button>
+          </td>
+        </tr>
+      </table>
+    </div>
     <!--overview table-->
-    <br><br><br>
-    <table align="center" border="1" v-if="overviewList.length">
-      <tr>
-        <th>No</th>
-        <th>Student name</th>
-        <th v-for="(topic, index) in overviewList[0].grades">{{ index }}</th>
-      </tr>
-      <tr v-for="(row,index) in overviewList">
-        <td>{{ index + 1 }}</td>
-        <td>{{ row.name }}</td>
-        <td v-for="(grade) in row.grades"
-            :class="{passed: grade === 'OK', failed: grade === 'Failed',
-            empty: grade === 'null'}">{{ grade }}</td>
-      </tr>
-    </table>
-<!--    <div v-bind:class="{ ok, failed, empty }"></div>-->
-    <div v-if="!overviewList.length">
-      ...
+    <div id="overview">
+      <h1>OVERVIEW</h1>
+      <table border="1" v-if="overviewList.length">
+        <tr>
+          <th>No</th>
+          <th>Student</th>
+          <th v-for="(topic, index) in overviewList[0].grades">{{ index }}</th>
+        </tr>
+        <tr v-for="(row,index) in overviewList">
+          <td>{{ index + 1 }}</td>
+          <td>{{ row.name }}</td>
+          <td v-for="(grade) in row.grades"
+              :class="{passed: grade === 'OK', failed: grade === 'Failed',
+            empty: grade === 'null'}">{{ grade }}
+          </td>
+        </tr>
+      </table>
+      <!--    <div v-bind:class="{ ok, failed, empty }"></div>-->
+      <div v-if="!overviewList.length">
+        ...
+      </div>
     </div>
   </div>
 </template>
@@ -175,13 +180,28 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
+
+#insert_grade {
+  position: absolute;
+  top: 15%;
+  left: 10%;
+}
+
+#overview {
+  position: absolute;
+  top: 15%;
+  left: 55%;
+}
+
 .failed {
   background: red;
 }
+
 .passed {
   background: forestgreen;
 }
+
 .empty {
   background: white;
 }

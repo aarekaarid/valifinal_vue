@@ -8,6 +8,7 @@ Vue.prototype.$http = axios   //added!
 Vue.prototype.$host = "http://localhost:8080" //ACTIVATE WHEN IN DEVELOPMENT MODE
 // Vue.prototype.$host = "" //ACTIVATE BEFORE DEPLOYMENT (.jar file creation)
 
+// require('@/views/styles.css')
 
 new Vue({
   router,
