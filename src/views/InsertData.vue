@@ -10,8 +10,12 @@
       <tr v-for="(row, index) in namesList">
         <td>{{ index + 1 }}</td>
         <td><input v-bind:disabled="!row.active" v-model="row.name"></td>
-        <td><button v-on:click="activateName(row, index)">activate</button></td>
-        <td><button v-bind:disabled="!row.active" v-on:click="updateStudent(row)">Update</button></td>
+        <td>
+          <button v-on:click="activateName(row, index)">activate</button>
+        </td>
+        <td>
+          <button v-bind:disabled="!row.active" v-on:click="updateStudent(row)">Update</button>
+        </td>
       </tr>
     </table>
     <p>
@@ -29,13 +33,17 @@
       <tr v-for="(row, index) in topicsList">
         <td>{{ index + 1 }}</td>
         <td><input v-bind:disabled="!row.active" v-model="row.topicName"></td>
-<!--        <td><input v-bind:disabled="!row.active" v-model="row.id">-->
-        <td><button v-on:click="activateTopic(row)">activate</button></td>
-        <td><button v-bind:disabled="!row.active" v-on:click="updateTopic(row)">Update</button></td>
+        <!--        <td><input v-bind:disabled="!row.active" v-model="row.id">-->
+        <td>
+          <button v-on:click="activateTopic(row)">activate</button>
+        </td>
+        <td>
+          <button v-bind:disabled="!row.active" v-on:click="updateTopic(row)">Update</button>
+        </td>
       </tr>
     </table>
     <p>
-      <input v-model="topic.topicName" placeholder="insert topic name" ></p>
+      <input v-model="topic.topicName" placeholder="insert topic name"></p>
     <button v-on:click="addTopic()">Submit</button>
     <br>
     <br><br>
@@ -58,10 +66,14 @@
       </tr>
       <tr v-for="(row, index) in exerciseList">
         <td>{{ index + 1 }}</td>
-<!--        <td>{{row.exerciseName}}</td>-->
+        <!--        <td>{{row.exerciseName}}</td>-->
         <td><input v-bind:disabled="!row.active" v-model="row.exerciseName"></td>
-        <td><button v-on:click="activateExercise(row)">activate</button></td>
-        <td><button v-bind:disabled="!row.active" v-on:click="updateExercise(row)">Update</button></td>
+        <td>
+          <button v-on:click="activateExercise(row)">activate</button>
+        </td>
+        <td>
+          <button v-bind:disabled="!row.active" v-on:click="updateExercise(row)">Update</button>
+        </td>
       </tr>
     </table>
     <p>
@@ -81,7 +93,7 @@ let returnNames = function (response) {
 let addStudent = function () {
   let url = this.$host + "/student";
   this.$http.post(url, this.student).then(this.displayNames)
-      .catch(function (error){
+      .catch(function (error) {
         alert(JSON.stringify(error.response.data))
       });
   this.student = {};
@@ -102,9 +114,13 @@ let activateName = function (row, index) {
   this.namesList.splice(index, 1, row);
 }
 
-let updateStudent = function (row, index){
+let updateStudent = function (row, index) {
   let url = this.$host + "/student/update";
-  this.$http.put(url, row);
+  this.$http.put(url, row)
+      .catch(function (error) {
+        alert(JSON.stringify(error.response.data));
+      })
+      .then(this.displayNames); //displays students after alert
   row.active = false; //deactivating cell after pressing 'update'
   this.namesList.splice(index, row);
 }
@@ -130,12 +146,12 @@ let addTopic = function () {
   this.topic = {};
 }
 
-let activateTopic = function (row){
+let activateTopic = function (row) {
   row.active = true;
   this.topicsList.splice();
 }
 
-let updateTopic = function (row, index){
+let updateTopic = function (row, index) {
   let url = this.$host + "/topic/update";
   this.$http.put(url, row)
       .catch(function (error){
@@ -179,17 +195,17 @@ let addExercise = function () {
       });
 }
 
-let activateExercise = function (row){
+let activateExercise = function (row) {
   row.active = true;
   this.exerciseList.splice();
 }
 
-let updateExercise = function (row, index){
+let updateExercise = function (row, index) {
   let url = this.$host + "/exercise/update";
   this.$http.put(url, row)
       .catch(function (error) {
-    alert(JSON.stringify(error.response.data))
-  });
+        alert(JSON.stringify(error.response.data))
+      });
   row.active = false; // deacticating the cell after clicking Update!!!
   this.exerciseList.splice(row, index); //need to investigate!!!
 }

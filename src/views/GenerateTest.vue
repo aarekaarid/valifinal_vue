@@ -1,7 +1,96 @@
+<template>
+  <div class="home">
+    <p></p>
+    <br>
+    <h1>Generate test</h1>
+    <p>
+      <select v-model="dropDownStudent">  <!--NB! This is the  selected value-->
+        <option value="" selected disabled>choose name</option>
+        <option v-for="option in namesList" v-bind:value="option.name">
+          {{ option.name }}
+        </option>
+      </select>
+    </p>
+    <button v-on:click="generateTest()">Generate test</button>
+    <p>{{dropDownStudent}}</p>
+
+    <table align="center" border="1"> <!--  v-if="testMap.size"  -->
+      <tr>
+        <th>Topic</th>
+        <th>Exercise</th>
+      </tr>
+      <tr v-for="(row, index) in testMap">{{index}}
+        <td>{{row}}</td>
+      </tr>
+    </table>
+    <div v-if="!testMap.size">
+      ...
+    </div>
+  </div>
+</template>
+
+<script>
+let returnNames = function (response) {
+  this.namesList = response.data;
+  // console.log(this.namesList.length);
+}
+
+let displayNames = function () {
+  let url = this.$host + "/student/table";
+  this.$http.get(url).then(this.returnNames);
+}
+
+function returnTest(response) {
+  this.testMap = response.data;
+  console.log(getMapSize(this.testMap));
+  // if (getMapSize(this.testMap) === 0){
+  //   alert(this.dropDownStudent + " has passed all the topics")
+  // }
+}
+
+let generateTest = function () {
+  let url = this.$host + "/generatetest/" + this.dropDownStudent;
+  if (this.dropDownStudent === ""){
+    alert("You have to pick a student!");
+  }
+  this.$http.get(url).then(this.returnTest)
+      .catch(function (error) {
+    alert(JSON.stringify(error.response.data));
+  });
+  // this.dropDownStudent = "";
+}
+
+function getMapSize(input){
+  let len = 0;
+  for(let count in input){
+    len++
+  }
+  return len;
+}
+
+export default {
+  methods: {
+    returnNames: returnNames,
+    displayNames: displayNames,
+    returnTest: returnTest,
+    generateTest: generateTest,
+    getMapSize: getMapSize
+  },
+  data: function () {
+    return {
+      namesList: [],
+      dropDownStudent: "",
+      studentName: "",
+      testMap: {},
+    }
+  },
+  created() {   //selle abil tulevad andmed automaatselt
+    this.displayNames();
+  }
+}
+
+</script>
 <style>
-/*.home{*/
-/*  background-image: url("https://media-exp1.licdn.com/dms/image/C560BAQEOuQ7My1_XpQ/company-logo_200_200/0?e=2159024400&v=beta&t=I_zKiQJcUUOOU7s4B5Lv_dFwueKjQUHuHLvztdPF6SM");*/
-/*}*/
 p {
   color: black;
   font-family: "Dubai Medium";
@@ -23,75 +112,3 @@ table {
   color: black;
 }
 </style>
-
-<template>
-  <div class="home">
-    <br>
-    <h1>Generate test</h1>
-    <p>
-      <select v-model="dropDownStudent">  <!--NB! This is the  selected value-->
-        <option value="" selected disabled>choose name</option>
-        <option v-for="option in namesList" v-bind:value="option.name">
-          {{ option.name }}
-        </option>
-      </select>
-    </p>
-    <button v-on:click="generateTest()">Generate test</button>
-    <p>{{dropDownStudent}}</p>
-
-    <table align="center" border="1"> <!--  v-if="testList.length"  -->
-      <tr>
-        <th>Topic</th>
-        <th>Exercise</th>
-      </tr>
-      <tr v-for="(row, index) in testList">{{index}}
-        <td>{{row}}</td>
-      </tr>
-    </table>
-  </div>
-</template>
-
-<script>
-let returnNames = function (response) {
-  this.namesList = response.data;
-}
-
-let displayNames = function () {
-  let url = this.$host + "/student/table";
-  this.$http.get(url).then(this.returnNames);
-}
-
-let returnTest = function (response) {
-  this.testList = response.data;
-  // document.getElementById("test").innerText = response.data;
-}
-
-let generateTest = function () {
-  let url = this.$host + "/generatetest/" + this.dropDownStudent;
-  this.$http.get(url).then(this.returnTest).catch(function (error) {
-    alert(JSON.stringify(error.response.data));
-  });
-  // this.dropDownStudent = "";
-}
-
-export default {
-  methods: {
-    returnNames: returnNames,
-    displayNames: displayNames,
-    returnTest: returnTest,
-    generateTest: generateTest
-  },
-  data: function () {
-    return {
-      namesList: [],
-      dropDownStudent: "",
-      studentName: "",
-      testList: {},
-    }
-  },
-  created() {   //selle abil tulevad andmed automaatselt
-    this.displayNames();
-  }
-}
-
-</script>
