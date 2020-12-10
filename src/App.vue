@@ -6,8 +6,8 @@
       <router-link v-if="token" to="/insertdata">Insert data</router-link> |
       <router-link v-if="token" to="/insertgrade">Insert grade</router-link> |
       <router-link v-if="token" to="/generate">Generate test</router-link> |
+<!--      <router-link to="/about">About</router-link> |-->
       <button v-if="token" v-on:click="logoutUser()">Log out</button>
-<!--      </form>-->
     </div>
     <router-view/>
   </div>
@@ -38,6 +38,8 @@ let logoutUser = function (){
 </script>
 
 <style>
+@import './views/styles.css';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -59,10 +61,10 @@ let logoutUser = function (){
   color: #42b983;
 }
 
-#logout_location{
-  position: absolute;
-  top: 6%;
-  left: 90%;
-}
+/*#logout_location{*/
+/*  position: absolute;*/
+/*  top: 6%;*/
+/*  left: 90%;*/
+/*}*/
 
 </style>

@@ -2,7 +2,7 @@
   <div class="home">
     <p></p>
     <br>
-    <h1>Generate test</h1>
+<!--    <h1>GENERATE TEST</h1>-->
     <p>
       <select v-model="dropDownStudent">  <!--NB! This is the  selected value-->
         <option value="" selected disabled>choose name</option>
@@ -91,24 +91,5 @@ export default {
 
 </script>
 <style>
-p {
-  color: black;
-  font-family: "Dubai Medium";
-  font-size: x-large;
-}
 
-button {
-  background-color: forestgreen;
-}
-
-select {
-  background: #2c3e50;
-  color: antiquewhite;
-  border-color: #2c3e50;
-}
-
-table {
-  background: darkgrey;
-  color: black;
-}
 </style>

@@ -1,86 +1,93 @@
 <template>
   <div class="home">
     <br>
-    <h1>INSERT STUDENT</h1>
-    <table align="center" border="1" v-if="namesList.length">
-      <tr>
-        <th>No</th>
-        <th>STUDENTS</th>
-      </tr>
-      <tr v-for="(row, index) in namesList">
-        <td>{{ index + 1 }}</td>
-        <td><input v-bind:disabled="!row.active" v-model="row.name"></td>
-        <td>
-          <button v-on:click="activateName(row, index)">activate</button>
-        </td>
-        <td>
-          <button v-bind:disabled="!row.active" v-on:click="updateStudent(row)">Update</button>
-        </td>
-      </tr>
-    </table>
-    <p>
-      <input v-model="student.name" placeholder="insert name"><br>
-    </p>
-    <button v-on:click="addStudent()">Submit</button>
-    <br><br>
+    <div id="student_stuff">
+      <h1>INSERT STUDENT</h1>
+      <p>
+        <input v-model="student.name" placeholder="insert name"><br>
+      </p>
+      <button v-on:click="addStudent()">Submit</button>
+      <br><br>
+      <table align="center" border="1" v-if="namesList.length">
+        <tr>
+          <th>No</th>
+          <th>STUDENTS</th>
+        </tr>
+        <tr v-for="(row, index) in namesList">
+          <td>{{ index + 1 }}</td>
+          <td><input v-bind:disabled="!row.active" v-model="row.name"></td>
+          <td>
+            <button v-on:click="activateName(row, index)">activate</button>
+          </td>
+          <td>
+            <button v-bind:disabled="!row.active" v-on:click="updateStudent(row)">Update</button>
+          </td>
+        </tr>
+      </table>
+    </div>
 
-    <h1>INSERT TOPIC</h1>
-    <table align="center" border="1" v-if="topicsList.length">
-      <tr>
-        <th>No</th>
-        <th>TOPICS</th>
-      </tr>
-      <tr v-for="(row, index) in topicsList">
-        <td>{{ index + 1 }}</td>
-        <td><input v-bind:disabled="!row.active" v-model="row.topicName"></td>
-        <!--        <td><input v-bind:disabled="!row.active" v-model="row.id">-->
-        <td>
-          <button v-on:click="activateTopic(row)">activate</button>
-        </td>
-        <td>
-          <button v-bind:disabled="!row.active" v-on:click="updateTopic(row)">Update</button>
-        </td>
-      </tr>
-    </table>
-    <p>
-      <input v-model="topic.topicName" placeholder="insert topic name"></p>
-    <button v-on:click="addTopic()">Submit</button>
-    <br>
-    <br><br>
+    <div id="topic_stuff">
+      <h1>INSERT TOPIC</h1>
+      <p>
+        <input v-model="topic.topicName" placeholder="insert topic name"></p>
+      <button v-on:click="addTopic()">Submit</button>
+      <br><br>
+      <table align="center" border="1" v-if="topicsList.length">
+        <tr>
+          <th>No</th>
+          <th>TOPICS</th>
+        </tr>
+        <tr v-for="(row, index) in topicsList">
+          <td>{{ index + 1 }}</td>
+          <td><input v-bind:disabled="!row.active" v-model="row.topicName"></td>
+          <!--        <td><input v-bind:disabled="!row.active" v-model="row.id">-->
+          <td>
+            <button v-on:click="activateTopic(row)">activate</button>
+          </td>
+          <td>
+            <button v-bind:disabled="!row.active" v-on:click="updateTopic(row)">Update</button>
+          </td>
+        </tr>
+      </table>
 
-    <h1>CHOOSE TOPIC/ ADD EXERCISE</h1>
-    <!--TOPICS DROPDOWN-->
-    <p>
-      <select v-on:change="displayExercises()" v-model="dropDownTopic">  <!--NB! This is the  selected value-->
-        <option value="" selected disabled>choose topic</option>
-        <option v-for="option in topicsList" v-bind:value="option.topicName">
-          {{ option.topicName }}
-        </option>
-      </select>
-    </p>
-    <!--END OF TOPICS DROPDOWN-->
-    <table align="center" border="1" v-if="exerciseList.length">
-      <tr>
-        <th>No</th>
-        <th>EXERCISES</th>
-      </tr>
-      <tr v-for="(row, index) in exerciseList">
-        <td>{{ index + 1 }}</td>
-        <!--        <td>{{row.exerciseName}}</td>-->
-        <td><input v-bind:disabled="!row.active" v-model="row.exerciseName"></td>
-        <td>
-          <button v-on:click="activateExercise(row)">activate</button>
-        </td>
-        <td>
-          <button v-bind:disabled="!row.active" v-on:click="updateExercise(row)">Update</button>
-        </td>
-      </tr>
-    </table>
-    <p>
-      <input v-model="exerciseName" placeholder="insert exercise text" width="" height="10"><br>
-    </p>
-    <p>{{ errorMessage }}</p>
-    <button v-on:click="addExercise()">Submit</button>
+    </div>
+
+    <div id="exercise_stuff">
+      <h1>CHOOSE TOPIC/ ADD EXERCISE</h1>
+      <!--TOPICS DROPDOWN-->
+      <p>
+        <select v-on:change="displayExercises()" v-model="dropDownTopic">  <!--NB! This is the  selected value-->
+          <option value="" selected disabled>choose topic</option>
+          <option v-for="option in topicsList" v-bind:value="option.topicName">
+            {{ option.topicName }}
+          </option>
+        </select>
+      </p>
+      <!--END OF TOPICS DROPDOWN-->
+      <p>
+        <input v-model="exerciseName" placeholder="insert exercise text" width="" height="10"><br>
+      </p>
+      <p>{{ errorMessage }}</p>
+      <button v-on:click="addExercise()">Submit</button>
+      <br><br>
+      <table border="1" v-if="exerciseList.length" >
+        <tr>
+          <th>No</th>
+          <th>EXERCISES</th>
+        </tr>
+        <tr v-for="(row, index) in exerciseList">
+          <td>{{ index + 1 }}</td>
+          <!--        <td>{{row.exerciseName}}</td>-->
+          <td><input v-bind:disabled="!row.active" v-model="row.exerciseName"></td>
+          <td>
+            <button v-on:click="activateExercise(row)">activate</button>
+          </td>
+          <td>
+            <button v-bind:disabled="!row.active" v-on:click="updateExercise(row)">Update</button>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -139,7 +146,7 @@ let displayTopics = function () {
 let addTopic = function () {
   let url = this.$host + "/topic";
   this.$http.post(url, this.topic).then(this.returnTopics)
-      .catch(function (error){
+      .catch(function (error) {
         alert(JSON.stringify(error.response.data))
       })
       .then(this.displayTopics);
@@ -154,7 +161,7 @@ let activateTopic = function (row) {
 let updateTopic = function (row, index) {
   let url = this.$host + "/topic/update";
   this.$http.put(url, row)
-      .catch(function (error){
+      .catch(function (error) {
         alert(JSON.stringify(error.response.data))
       })
       .then(this.displayTopics);  //NB! updates list to previous state after alert!!!
@@ -253,3 +260,37 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#student_stuff {
+  position: absolute;
+  top: 15%;
+  left: 5%;
+  background: cornflowerblue;
+  /*margin-top: -5px;*/
+  /*margin-left: -5px;*/
+  /*width: 100px;*/
+  /*height: 100px;*/
+}
+
+#topic_stuff {
+  position: absolute;
+  top: 15%;
+  left: 38%;
+  background: cornflowerblue;
+  /*margin-top: -5px;*/
+  /*margin-left: -5px;*/
+  /*width: 200px;*/
+  /*height: 100px;*/
+
+}
+
+#exercise_stuff {
+  position: absolute;
+  top: 15%;
+  left: 70%;
+  background: cornflowerblue;
+  /*margin-top: 20px;*/
+  /*margin-left: 100px;*/
+}
+</style>
