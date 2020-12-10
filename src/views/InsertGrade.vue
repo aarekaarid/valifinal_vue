@@ -38,11 +38,11 @@
           <th v-for="(topic, index) in overviewList[0].grades">{{ index }}</th>
         </tr>
         <tr v-for="(row,index) in overviewList">
-          <td>{{ index + 1 }}</td>
-          <td>{{ row.name }}</td>
+          <td id="no">{{ index + 1 }}</td>
+          <td id="student">{{ row.name }}</td>
           <td v-for="(grade) in row.grades"
               :class="{passed: grade === 'OK', failed: grade === 'Failed',
-            empty: grade === 'null'}">{{ grade }}
+            empty: grade === 'null'}">
           </td>
         </tr>
       </table>
@@ -192,6 +192,15 @@ export default {
   position: absolute;
   top: 15%;
   left: 55%;
+}
+td{
+  width: 50px;
+}
+#no {
+  width: 20px;
+}
+#student{
+  width: 110px;
 }
 
 .failed {
