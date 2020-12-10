@@ -2,15 +2,39 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/siteuser">LogIn</router-link> |
-      <router-link to="/insertdata">Insert data</router-link> |
-      <router-link to="/insertgrade">Insert grade</router-link> |
-      <router-link to="/generate">Generate test</router-link> |
+      <router-link v-if="!token" to="/siteuser">LogIn</router-link> |
+      <router-link v-if="token" to="/insertdata">Insert data</router-link> |
+      <router-link v-if="token" to="/insertgrade">Insert grade</router-link> |
+      <router-link v-if="token" to="/generate">Generate test</router-link> |
       <router-link to="/about">About</router-link> |
+      <button v-if="token" v-on:click="logoutUser()">Log out</button>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+
+let logoutUser = function (){
+  localStorage.removeItem('user-token') // remove on logout
+  location.reload()
+}
+
+  export default{
+    methods: {
+      logoutUser: logoutUser,
+    },
+    data(){
+      return {
+        token: ''
+      }
+    },
+    created() {
+      this.token = localStorage.getItem('user-token')
+    }
+  }
+
+</script>
 
 <style>
 #app {

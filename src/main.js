@@ -5,6 +5,9 @@ import axios from 'axios'   //added! (before in cmd: install axios!!!)
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios   //added!
+Vue.prototype.$host = "http://localhost:8080" //ACTIVATE WHEN IN DEVELOPMENT MODE
+// Vue.prototype.$host = "" //ACTIVATE BEFORE DEPLOYMENT (.jar file creation)
+
 
 new Vue({
   router,

@@ -56,12 +56,12 @@ let returnSummaryF = function (response) {
 }
 
 let displaySummaryF = function () {
-  let url = "http://localhost:8080/summary/table";
+  let url = this.$host + "/summary/table";
   this.$http.get(url).then(this.returnSummary);
 }
 
 let updateGrade = function (row, index) {
-  let url = "http://localhost:8080/grade/update";
+  let url = this.$host + "/grade/update";
   console.log(row.grade);
   let requestParams = {
     params: {
@@ -82,7 +82,7 @@ let returnNamesF = function (response) {
 }
 
 let displayNamesF = function () {
-  let url = "http://localhost:8080/student/table";
+  let url = this.$host + "/student/table";
   this.$http.get(url).then(this.returnNames);
 }
 
@@ -92,7 +92,7 @@ let returnTopics = function (response) {
 }
 
 let displayTopics = function () {
-  let url = "http://localhost:8080/topic/table";
+  let url = this.$host + "/topic/table";
   this.$http.get(url, this.topic).then(this.returnTopics);
 }
 
@@ -102,12 +102,12 @@ let returnExercises = function (response) {
 }
 
 let displayExercises = function () {
-  let url = "http://localhost:8080/exercise/" + this.dropDownTopic;
+  let url = this.$host + "/exercise/" + this.dropDownTopic;
   this.$http.get(url).then(this.returnExercises);
 }
 
 let insertGradeF = function () {
-  let url = "http://localhost:8080/summary";
+  let url = this.$host + "/summary";
   let requestParams = {
     params: {
       name: this.dropDownStudent,
@@ -127,7 +127,7 @@ let returnOverviewList = function (response) {
 }
 
 let displayOverviewList = function () {
-  let url = "http://localhost:8080/overview";
+  let url = this.$host + "/overview";
   this.$http.get(url).then(this.returnOverviewList);
 }
 

@@ -57,7 +57,7 @@ let returnNames = function (response) {
 }
 
 let displayNames = function () {
-  let url = "http://localhost:8080/student/table";
+  let url = this.$host + "/student/table";
   this.$http.get(url).then(this.returnNames);
 }
 
@@ -67,7 +67,7 @@ let returnTest = function (response) {
 }
 
 let generateTest = function () {
-  let url = "http://localhost:8080/generatetest/" + this.dropDownStudent;
+  let url = this.$host + "/generatetest/" + this.dropDownStudent;
   this.$http.get(url).then(this.returnTest).catch(function (error) {
     alert(JSON.stringify(error.response.data));
   });
