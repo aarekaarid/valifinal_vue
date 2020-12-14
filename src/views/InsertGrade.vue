@@ -12,16 +12,18 @@
           <th>Grade</th>
         </tr>
         <tr v-for="(row, index) in summaryList">
-          <td>{{ index + 1 }}</td>
-          <td>{{ row.studentName }}</td>
+          <td id="no1">{{ index + 1 }}</td>
+          <td id="student1">{{ row.studentName }}</td>
           <td>{{ row.topicName }}</td>
           <td>{{ row.exerciseName }}</td>
-          <td><select v-model="row.dropDownGrade">  <!--NB! This is the  selected value-->
-            <option value="" selected disabled>choose grade</option>
-            <option v-for="option in dropDownGradeJsons" v-bind:value="option.gradeValue">
-              {{ option.gradeValue }}
-            </option>
-          </select></td>
+          <td>
+            <select v-model="row.dropDownGrade">  <!--NB! This is the  selected value-->
+              <option value="" selected disabled>choose grade</option>
+              <option v-for="option in dropDownGradeJsons" v-bind:value="option.gradeValue">
+                {{ option.gradeValue }}
+              </option>
+            </select>
+          </td>
           <td>
             <button v-on:click="updateGrade(row), displayOverviewList()">Insert</button>
           </td>
@@ -38,8 +40,8 @@
           <th v-for="(topic, index) in overviewList[0].grades">{{ index }}</th>
         </tr>
         <tr v-for="(row,index) in overviewList">
-          <td id="no">{{ index + 1 }}</td>
-          <td id="student">{{ row.name }}</td>
+          <td id="no2">{{ index + 1 }}</td>
+          <td id="student2">{{ row.name }}</td>
           <td v-for="(grade) in row.grades"
               :class="{passed: grade === 'OK', failed: grade === 'Failed',
             empty: grade === 'null'}">
@@ -80,6 +82,7 @@ let updateGrade = function (row, index) {
       .catch(function (error) {
         alert(JSON.stringify(error.response.data))
       });
+  location.reload()
 }
 
 let returnNamesF = function (response) {
@@ -185,21 +188,32 @@ export default {
 #insert_grade {
   position: absolute;
   top: 15%;
-  left: 10%;
+  left: 150px;
 }
 
 #overview {
   position: absolute;
   top: 15%;
-  left: 55%;
+  left: 850px;
 }
-td{
+
+td {
   width: 50px;
 }
-#no {
+
+#no1 {
   width: 20px;
 }
-#student{
+
+#student1 {
+  width: 110px;
+}
+
+#no2 {
+  width: 20px;
+}
+
+#student2 {
   width: 110px;
 }
 

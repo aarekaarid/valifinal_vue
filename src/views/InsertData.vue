@@ -101,7 +101,8 @@ let addStudent = function () {
   let url = this.$host + "/student";
   this.$http.post(url, this.student).then(this.displayNames)
       .catch(function (error) {
-        alert(JSON.stringify(error.response.data))
+        alert(Object.values(error.response.data));  //displays only value
+        // alert(JSON.stringify(error.response.data)) //displays JSON, i.e "key": "value"
       });
   this.student = {};
 }
@@ -125,7 +126,8 @@ let updateStudent = function (row, index) {
   let url = this.$host + "/student/update";
   this.$http.put(url, row)
       .catch(function (error) {
-        alert(JSON.stringify(error.response.data));
+        alert(Object.values(error.response.data));
+        // alert(JSON.stringify(error.response.data));
       })
       .then(this.displayNames); //displays students after alert
   row.active = false; //deactivating cell after pressing 'update'
@@ -147,7 +149,8 @@ let addTopic = function () {
   let url = this.$host + "/topic";
   this.$http.post(url, this.topic).then(this.returnTopics)
       .catch(function (error) {
-        alert(JSON.stringify(error.response.data))
+        alert(Object.values(error.response.data));
+        // alert(JSON.stringify(error.response.data))
       })
       .then(this.displayTopics);
   this.topic = {};
@@ -162,7 +165,8 @@ let updateTopic = function (row, index) {
   let url = this.$host + "/topic/update";
   this.$http.put(url, row)
       .catch(function (error) {
-        alert(JSON.stringify(error.response.data))
+        alert(Object.values(error.response.data));
+        // alert(JSON.stringify(error.response.data))
       })
       .then(this.displayTopics);  //NB! updates list to previous state after alert!!!
   row.active = false;
@@ -198,7 +202,8 @@ let addExercise = function () {
   this.$http.put(url, {}, requestParams)
       .then(this.returnExercises)
       .catch(function (error) {
-        alert(JSON.stringify(error.response.data)); //this is the part you need that catches 400 request
+        alert(Object.values(error.response.data));
+        // alert(JSON.stringify(error.response.data)); //this is the part you need that catches 400 request
       });
 }
 
@@ -211,7 +216,8 @@ let updateExercise = function (row, index) {
   let url = this.$host + "/exercise/update";
   this.$http.put(url, row)
       .catch(function (error) {
-        alert(JSON.stringify(error.response.data))
+        alert(Object.values(error.response.data));
+        // alert(JSON.stringify(error.response.data))
       });
   row.active = false; // deacticating the cell after clicking Update!!!
   this.exerciseList.splice(row, index); //need to investigate!!!
@@ -265,7 +271,7 @@ export default {
 #student_stuff {
   position: absolute;
   top: 15%;
-  left: 5%;
+  left: 70px;
   background: cornflowerblue;
   /*margin-top: -5px;*/
   /*margin-left: -5px;*/
@@ -276,7 +282,7 @@ export default {
 #topic_stuff {
   position: absolute;
   top: 15%;
-  left: 38%;
+  left: 580px;
   background: cornflowerblue;
   /*margin-top: -5px;*/
   /*margin-left: -5px;*/
@@ -288,7 +294,7 @@ export default {
 #exercise_stuff {
   position: absolute;
   top: 15%;
-  left: 70%;
+  left: 1100px;
   background: cornflowerblue;
   /*margin-top: 20px;*/
   /*margin-left: 100px;*/

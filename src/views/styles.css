@@ -10,9 +10,13 @@ p {
     font-family: "Dubai Medium";
     font-size: x-large;
 }
+input{
+    height: 30px;
+    font-size: 14px;
+}
 
 button {
-    background-color: limegreen;
+    background-color: grey;
     /*width: 80px;*/
     /*height: 30px;*/
     font-size: 20px;

@@ -3,9 +3,9 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link v-if="!token" to="/siteuser">LogIn</router-link> |
-      <router-link v-if="token" to="/insertdata">Insert data</router-link> |
-      <router-link v-if="token" to="/insertgrade">Insert grade</router-link> |
       <router-link v-if="token" to="/generate">Generate test</router-link> |
+      <router-link v-if="token" to="/insertgrade">Insert grade</router-link> |
+      <router-link v-if="token" to="/insertdata">Insert data</router-link> |
 <!--      <router-link to="/about">About</router-link> |-->
       <button v-if="token" v-on:click="logoutUser()">Log out</button>
     </div>

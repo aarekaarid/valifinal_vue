@@ -14,16 +14,16 @@
     <button v-on:click="generateTest()">Generate test</button>
     <p>{{dropDownStudent}}</p>
 
-    <table align="center" border="1"> <!--  v-if="testMap.size"  -->
+    <table align="center" border="1" v-if="getMapSize(this.testMap)">
       <tr>
         <th>Topic</th>
         <th>Exercise</th>
       </tr>
       <tr v-for="(row, index) in testMap">{{index}}
-        <td>{{row}}</td>
+        <td>{{row}} + EXERCISE TEXT</td>
       </tr>
     </table>
-    <div v-if="!testMap.size">
+    <div v-if="!getMapSize(this.testMap)">
       ...
     </div>
   </div>
@@ -55,7 +55,7 @@ let generateTest = function () {
   }
   this.$http.get(url).then(this.returnTest)
       .catch(function (error) {
-    alert(JSON.stringify(error.response.data));
+        alert(Object.values(error.response.data));
   });
   // this.dropDownStudent = "";
 }
@@ -90,6 +90,9 @@ export default {
 }
 
 </script>
-<style>
+<style scoped>
+th{
+  width: 200px;
+}
 
 </style>
